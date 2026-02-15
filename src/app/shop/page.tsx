@@ -68,23 +68,10 @@ export default async function ShopPage({
     <div className="min-h-screen bg-gradient-to-b from-[#FFF9F7] via-white to-bg-light">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Tienda */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-secondary-dark via-[#1e3a47] to-action rounded-3xl p-8 md:p-12 mb-10 text-white shadow-2xl border border-white/10">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(255,87,34,0.2)_0%,transparent_50%)]" />
-          <div className="relative z-10">
-            <h1 className="font-title text-4xl md:text-5xl tracking-wider mb-4 text-white">
-              TIENDA ONSET
-            </h1>
-            <p className="text-lg text-white/90 max-w-2xl">
-              Todo el catálogo con actitud. Filtra y encuentra lo que buscas.
-            </p>
-          </div>
-        </div>
-
-        {/* Filtros */}
-        <div className="bg-white rounded-2xl shadow-soft p-6 md:p-8 mb-8 border-2 border-gray-100">
-          <div className="flex flex-col md:flex-row gap-4">
+      <main className="container mx-auto max-w-7xl px-4 lg:px-8 py-6 lg:py-8">
+        {/* Búsqueda y filtro */}
+        <div className="bg-white rounded-2xl shadow-soft p-4 sm:p-6 mb-4 border-2 border-gray-100">
+          <div className="flex flex-col md:flex-row gap-2.5 md:gap-4">
             <form className="flex-1" action="/shop" method="get">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -127,7 +114,7 @@ export default async function ShopPage({
         </div>
 
         {/* Contador */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-gradient-to-br from-primary to-coral p-2 rounded-xl">
               <Package className="w-5 h-5 text-white" />
@@ -141,11 +128,11 @@ export default async function ShopPage({
 
         {/* Grid */}
         {productsWithImageUrl.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-5">
             {productsWithImageUrl.map((product, index) => (
               <div
                 key={product.id}
-                className="animate-fadeIn"
+                className="animate-fadeIn h-full flex"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <ProductCard

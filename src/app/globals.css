@@ -1,33 +1,9 @@
+/* Design System – variables CSS centralizadas (debe ir primero) */
+@import './styles/design-system.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ========================================
-   VARIABLES CSS – ONSET JUVENIL URBANO
-   ======================================== */
-:root {
-  --color-primary: #FF5722;
-  --color-primary-light: #FF8A65;
-  --color-primary-dark: #E64A19;
-  --color-action: #2A9D8F;
-  --color-action-light: #5BB5A9;
-  --color-coral: #E76F51;
-  --color-secondary-dark: #264653;
-  --color-salmon: #F4A261;
-  --color-yellow: #FFD166;
-  --color-accent-electric: #00B4D8;
-  --color-accent-soft: #FF6B6B;
-  --color-success: #2A9D8F;
-  --color-error: #FF6B6B;
-  --color-whatsapp: #25D366;
-  --color-bg-main: #FFFFFF;
-  --color-bg-card: #F8FAFC;
-  --color-bg-hover: #FFF5F2;
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #525252;
-  --color-text-muted: #737373;
-  --color-border: #E5E7EB;
-}
 
 /* ========================================
    ESTILOS BASE
@@ -173,9 +149,14 @@ body {
     scrollbar-width: none;
   }
 
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area para notch/iPhones */
+.safe-area-inset-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
 
   .line-clamp-1 {
     display: -webkit-box;
@@ -228,20 +209,53 @@ body {
   animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* PDP: brillo que recorre el botón de izquierda a derecha (cada 3s) */
+@keyframes btn-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+.animate-btn-shine {
+  animation: btn-shine 3s ease-in-out infinite;
+}
+
+/* PDP: levitación suave para iconos de entrega */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float-soft {
+  animation: float-soft 2.5s ease-in-out infinite;
+}
+
 /* ========================================
-   RESPONSIVE
+   MOBILE OPTIMIZATIONS – 375px (iPhone SE), 390px (iPhone 12/13/14)
    ======================================== */
+
+/* Touch targets: mínimo 44x44px (WCAG 2.5.5) */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (max-width: 430px) {
+  .container-main {
+    @apply px-5;
+  }
+
+  body {
+    font-size: 16px; /* Previene zoom en iOS al enfocar inputs */
+  }
+}
+
 @media (max-width: 640px) {
   .btn-whatsapp {
-    @apply px-6 py-3 text-sm;
+    @apply min-h-[44px] px-6 py-3 text-base;
   }
 
   .product-card {
     @apply rounded-xl;
-  }
-
-  .container-main {
-    @apply px-3;
   }
 }
 
@@ -312,4 +326,24 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #E64A19, #248277);
+}
+
+/* ========================================
+   SWIPER – Galería producto (tipo Stories)
+   ======================================== */
+.swiper-pagination-bullet {
+  @apply bg-gray-300;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-[#FF5722] scale-125;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  @apply text-[#FF5722] scale-75;
+}
+
+.thumbnails-swiper .swiper-slide-thumb-active img {
+  @apply border-[#FF5722];
 }

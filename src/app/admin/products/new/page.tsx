@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Upload, Loader2 } from 'lucide-react';
+import { Upload } from 'lucide-react';
+import ImageStudioModal, { ImageData } from '@/components/admin/ImageStudioModal';
+import SpecificationsManager from '@/components/admin/SpecificationsManager';
 
 export default function NewProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [studioOpen, setStudioOpen] = useState(false);
+  const [studioImages, setStudioImages] = useState<ImageData[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
@@ -19,8 +22,9 @@ export default function NewProductPage() {
     isPreOrder: false,
     preOrderDaysStart: 3,
     preOrderDaysEnd: 5,
-    imageUrl: '',
+    images: [] as string[],
     categoryId: '',
+    specifications: [] as { key: string; value: string; order: number }[],
   });
 
   // Cargar categorías
@@ -49,48 +53,6 @@ export default function NewProductPage() {
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Validar tipo de archivo
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor selecciona una imagen válida');
-      return;
-    }
-
-    // Validar tamaño (máximo 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen no debe superar 5MB');
-      return;
-    }
-
-    setUploadingImage(true);
-
-    try {
-      const formDataUpload = new FormData();
-      formDataUpload.append('file', file);
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formDataUpload,
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al subir la imagen');
-      }
-
-      const data = await response.json();
-      setFormData((prev) => ({ ...prev, imageUrl: data.url }));
-      alert('✅ Imagen subida correctamente');
-    } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error al subir la imagen. Intenta de nuevo.');
-    } finally {
-      setUploadingImage(false);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -107,6 +69,7 @@ export default function NewProductPage() {
         preOrderDays: formData.isPreOrder
           ? `${formData.preOrderDaysStart} a ${formData.preOrderDaysEnd} días`
           : null,
+        specifications: formData.specifications,
       };
 
       const response = await fetch('/api/products', {
@@ -208,6 +171,16 @@ export default function NewProductPage() {
             rows={4}
             className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
             placeholder="Descripción detallada del producto..."
+          />
+        </div>
+
+        {/* Especificaciones Técnicas */}
+        <div className="mb-6">
+          <SpecificationsManager
+            specifications={formData.specifications}
+            onChange={(specs) =>
+              setFormData((prev) => ({ ...prev, specifications: specs }))
+            }
           />
         </div>
 
@@ -411,60 +384,47 @@ export default function NewProductPage() {
           )}
         </div>
 
-        {/* Imagen */}
+        {/* Imágenes del Producto */}
         <div className="mb-6">
           <label className="block font-medium text-gray-700 mb-2">
-            Imagen Principal del Producto
+            Imágenes del Producto
           </label>
           
-          {/* Botón de Subir */}
-          <div className="flex items-center gap-4">
-            <label
-              htmlFor="imageUpload"
-              className={`cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 ${
-                uploadingImage ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {uploadingImage ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Subiendo...
-                </>
-              ) : (
-                <>
-                  <Upload className="w-5 h-5" />
-                  Subir Imagen
-                </>
-              )}
-            </label>
-            <input
-              id="imageUpload"
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              disabled={uploadingImage}
-              className="hidden"
-            />
-            
-            {formData.imageUrl && (
-              <span className="text-sm text-green-600 font-medium">✓ Imagen cargada</span>
-            )}
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setStudioImages(
+                formData.images.map((url, i) => ({
+                  id: `existing-${i}-${url.slice(-12)}`,
+                  url,
+                  isPrimary: i === 0,
+                }))
+              );
+              setStudioOpen(true);
+            }}
+            className="bg-[#FF5722] hover:bg-[#E64A19] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-orange-500/30 flex items-center gap-2"
+          >
+            <Upload className="w-5 h-5" />
+            Gestionar Imágenes ({formData.images.length})
+          </button>
 
-          {/* Vista previa */}
-          {formData.imageUrl && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-600 mb-2">Vista previa:</p>
-              <img
-                src={formData.imageUrl}
-                alt="Vista previa"
-                className="w-40 h-40 object-cover rounded-lg border-2 border-gray-200"
-              />
+          {formData.images.length > 0 && (
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {formData.images.slice(0, 4).map((url, idx) => (
+                <img
+                  key={idx}
+                  src={url}
+                  alt={`Imagen ${idx + 1}`}
+                  className="w-full aspect-square object-cover rounded-lg border-2 border-gray-200"
+                />
+              ))}
             </div>
           )}
 
           <p className="text-xs text-gray-500 mt-2">
-            Formatos: JPG, PNG, WebP (máximo 5MB). Cada variante puede tener su propia imagen.
+            {formData.images.length === 0 
+              ? 'Aún no has agregado imágenes. Máximo 8 imágenes.' 
+              : `${formData.images.length}/8 imágenes • La primera es la principal`}
           </p>
         </div>
 
@@ -472,7 +432,7 @@ export default function NewProductPage() {
         <div className="flex gap-4">
           <button
             type="submit"
-            disabled={loading || uploadingImage}
+            disabled={loading}
             className="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Creando...' : 'Crear Producto y Agregar Variantes'}
@@ -480,13 +440,27 @@ export default function NewProductPage() {
           <button
             type="button"
             onClick={() => router.push('/admin/products')}
-            disabled={loading || uploadingImage}
+            disabled={loading}
             className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 text-gray-700 font-semibold"
           >
             Cancelar
           </button>
         </div>
       </form>
+
+      {/* Modal de Gestión de Imágenes */}
+      <ImageStudioModal
+        isOpen={studioOpen}
+        onClose={() => setStudioOpen(false)}
+        images={studioImages}
+        onSave={async (images) => {
+          const urls = images.map((img) => img.url);
+          setFormData((prev) => ({ ...prev, images: urls }));
+          setStudioImages(images);
+        }}
+        maxImages={8}
+        title="Imágenes del Producto"
+      />
     </div>
   );
 }

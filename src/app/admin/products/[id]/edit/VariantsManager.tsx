@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Trash2, Edit2, Plus, Loader2, Upload } from 'lucide-react';
+import { Trash2, Edit2, Plus, Upload, Loader2 } from 'lucide-react';
+import ImageStudioModal, { ImageData } from '@/components/admin/ImageStudioModal';
 
 interface Variant {
   id: string;
@@ -11,6 +12,7 @@ interface Variant {
   price: number | null;
   stock: number;
   imageUrl: string | null;
+  images?: string[];
   isActive: boolean;
 }
 
@@ -24,7 +26,8 @@ export default function VariantsManager({ productId, basePrice }: Props) {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const [variantStudioOpen, setVariantStudioOpen] = useState(false);
+  const [variantStudioImages, setVariantStudioImages] = useState<ImageData[]>([]);
 
   const [formData, setFormData] = useState({
     color: '',
@@ -33,6 +36,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
     price: '',
     stock: '0',
     imageUrl: '',
+    images: [] as string[],
     isActive: true,
   });
 
@@ -61,44 +65,6 @@ export default function VariantsManager({ productId, basePrice }: Props) {
     }));
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      alert('Por favor selecciona una imagen válida');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen no debe superar 5MB');
-      return;
-    }
-
-    setUploadingImage(true);
-
-    try {
-      const formDataUpload = new FormData();
-      formDataUpload.append('file', file);
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formDataUpload,
-      });
-
-      if (!response.ok) throw new Error('Error al subir imagen');
-
-      const data = await response.json();
-      setFormData((prev) => ({ ...prev, imageUrl: data.url }));
-      alert('✅ Imagen subida correctamente');
-    } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error al subir imagen');
-    } finally {
-      setUploadingImage(false);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -117,7 +83,10 @@ export default function VariantsManager({ productId, basePrice }: Props) {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          images: formData.images || [],
+        }),
       });
 
       if (!response.ok) throw new Error('Error al guardar variante');
@@ -132,6 +101,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
   };
 
   const handleEdit = (variant: Variant) => {
+    const images = variant.images?.length ? variant.images : (variant.imageUrl ? [variant.imageUrl] : []);
     setFormData({
       color: variant.color || '',
       size: variant.size || '',
@@ -139,6 +109,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
       price: variant.price?.toString() || '',
       stock: variant.stock.toString(),
       imageUrl: variant.imageUrl || '',
+      images,
       isActive: variant.isActive,
     });
     setEditingId(variant.id);
@@ -171,6 +142,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
       price: '',
       stock: '0',
       imageUrl: '',
+      images: [],
       isActive: true,
     });
     setEditingId(null);
@@ -289,49 +261,48 @@ export default function VariantsManager({ productId, basePrice }: Props) {
             </div>
           </div>
 
-          {/* Imagen */}
+          {/* Imágenes de la Variante */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Imagen de la variante
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Imágenes de la variante
             </label>
-            <div className="flex items-center gap-4">
-              <label
-                htmlFor={`variantImage-${editingId || 'new'}`}
-                className={`cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 ${
-                  uploadingImage ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                {uploadingImage ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Subiendo...
-                  </>
-                ) : (
-                  <>
-                    <Upload className="w-5 h-5" />
-                    Subir Imagen
-                  </>
-                )}
-              </label>
-              <input
-                id={`variantImage-${editingId || 'new'}`}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                disabled={uploadingImage}
-                className="hidden"
-              />
-            </div>
 
-            {formData.imageUrl && (
-              <div className="mt-3">
-                <img
-                  src={formData.imageUrl}
-                  alt="Vista previa"
-                  className="w-24 h-24 object-cover rounded-lg border-2 border-gray-200"
-                />
+            <button
+              type="button"
+              onClick={() => {
+                setVariantStudioOpen(true);
+                setVariantStudioImages(
+                  (formData.images || []).map((url, idx) => ({
+                    id: `var-${Date.now()}-${idx}`,
+                    url,
+                    isPrimary: idx === 0,
+                  }))
+                );
+              }}
+              className="bg-[#2A9D8F] hover:bg-[#238276] text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+            >
+              <Upload className="w-4 h-4" />
+              Gestionar Imágenes ({formData.images?.length || 0})
+            </button>
+
+            {formData.images && formData.images.length > 0 && (
+              <div className="mt-2 grid grid-cols-4 gap-2">
+                {formData.images.slice(0, 4).map((url, idx) => (
+                  <img
+                    key={idx}
+                    src={url}
+                    alt={`Variante ${idx + 1}`}
+                    className="w-full aspect-square object-cover rounded border"
+                  />
+                ))}
               </div>
             )}
+
+            <p className="text-xs text-gray-500 mt-1">
+              {!formData.images?.length
+                ? 'Sin imágenes. Hereda imágenes del producto.'
+                : `${formData.images.length}/8 imágenes`}
+            </p>
           </div>
 
           {/* Activo */}
@@ -354,7 +325,6 @@ export default function VariantsManager({ productId, basePrice }: Props) {
           <div className="flex gap-3">
             <button
               type="submit"
-              disabled={uploadingImage}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
             >
               {editingId ? 'Actualizar' : 'Crear'} Variante
@@ -387,9 +357,9 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 variant.isActive ? 'bg-white border-gray-200' : 'bg-gray-50 border-gray-300 opacity-60'
               }`}
             >
-              {variant.imageUrl && (
+              {(variant.images?.[0] ?? variant.imageUrl) && (
                 <img
-                  src={variant.imageUrl}
+                  src={variant.images?.[0] ?? variant.imageUrl ?? ''}
                   alt={`${variant.color} ${variant.size}`}
                   className="w-full h-32 object-cover rounded-lg mb-3"
                 />
@@ -440,6 +410,20 @@ export default function VariantsManager({ productId, basePrice }: Props) {
           ))}
         </div>
       )}
+
+      {/* Modal de Imágenes de Variante */}
+      <ImageStudioModal
+        isOpen={variantStudioOpen}
+        onClose={() => setVariantStudioOpen(false)}
+        images={variantStudioImages}
+        onSave={async (images) => {
+          const urls = images.map((img) => img.url);
+          setFormData((prev) => ({ ...prev, images: urls }));
+          setVariantStudioImages(images);
+        }}
+        maxImages={8}
+        title="Imágenes de la Variante"
+      />
     </div>
   );
 }

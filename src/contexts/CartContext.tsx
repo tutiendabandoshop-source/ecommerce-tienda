@@ -1,11 +1,12 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import CartToast from "@/components/CartToast";
 
 export interface CartItem {
   id: string;
   name: string;
-  slug: string;
+  slug: string; // Requerido para navegar a la página de detalle (/shop/[slug])
   price: number;
   quantity: number;
   imageUrl: string | null;
@@ -24,6 +25,9 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  isCartDrawerOpen: boolean;
+  openCartDrawer: () => void;
+  closeCartDrawer: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -31,6 +35,11 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [lastAddedForToast, setLastAddedForToast] = useState<{
+    name: string;
+    imageUrl: string | null;
+  } | null>(null);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   // Cargar carrito desde localStorage al montar (solo en cliente)
   useEffect(() => {
@@ -97,6 +106,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       // Si no existe, agregar nuevo item
       return [...currentItems, { ...product, quantity: Math.min(quantity, product.stock) }];
     });
+    setLastAddedForToast({ name: product.name, imageUrl: product.imageUrl ?? null });
   };
 
   const removeItem = (productId: string, variantId?: string) => {
@@ -148,9 +158,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalItems,
         totalPrice,
+        isCartDrawerOpen,
+        openCartDrawer: () => setIsCartDrawerOpen(true),
+        closeCartDrawer: () => setIsCartDrawerOpen(false),
       }}
     >
       {children}
+      {lastAddedForToast && (
+        <CartToast
+          show={true}
+          productName={lastAddedForToast.name}
+          productImage={lastAddedForToast.imageUrl}
+          onClose={() => setLastAddedForToast(null)}
+          onViewCart={() => {
+            setLastAddedForToast(null);
+            setIsCartDrawerOpen(true);
+          }}
+        />
+      )}
     </CartContext.Provider>
   );
 }

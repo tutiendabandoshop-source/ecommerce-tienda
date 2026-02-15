@@ -10,7 +10,7 @@ export async function PUT(
     const { id: productId, variantId } = await params;
     const body = await request.json();
 
-    const { color, size, sku, price, stock, imageUrl, isActive } = body;
+    const { color, size, sku, price, stock, imageUrl, images, isActive } = body;
 
     const existing = await prisma.productVariant.findFirst({
       where: { id: variantId, productId },
@@ -26,17 +26,22 @@ export async function PUT(
     const stockValue = typeof stock === 'number' ? stock : parseInt(String(stock), 10);
     const validStock = !isNaN(stockValue) && stockValue >= 0 ? stockValue : 0;
 
+    const updateData: Record<string, unknown> = {
+      color: color || null,
+      size: size || null,
+      sku: sku || null,
+      price: price != null && price !== '' ? parseFloat(String(price)) : null,
+      stock: validStock,
+      imageUrl: imageUrl || null,
+      isActive: isActive !== false,
+    };
+    if (Array.isArray(images)) {
+      updateData.images = images;
+    }
+
     const variant = await prisma.productVariant.update({
       where: { id: variantId },
-      data: {
-        color: color || null,
-        size: size || null,
-        sku: sku || null,
-        price: price != null && price !== '' ? parseFloat(String(price)) : null,
-        stock: validStock,
-        imageUrl: imageUrl || null,
-        isActive: isActive !== false,
-      },
+      data: updateData as Parameters<typeof prisma.productVariant.update>[0]['data'],
     });
 
     return NextResponse.json(variant);

@@ -144,5 +144,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("hover-capable", "@media (hover: hover) and (pointer: fine)");
+    },
+  ],
 };

@@ -15,13 +15,13 @@ datasource db {
 // MODELO 1: CATEGORÍAS
 // ========================================
 model Category {
-  id        String    @id @default(cuid())
-  name      String    @unique
-  slug      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  
-  products  Product[]
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
 }
 
 // ========================================
@@ -33,21 +33,23 @@ model Product {
   slug           String   @unique
   description    String?
   price          Float
-  compareAtPrice Float?   // ⚠️ Cambiado de "comparePrice"
-  images         String[] // ⚠️ Cambiado de "imageUrl" (ahora es array)
-  stock          Int?     // Opcional si es "sobre pedido"
-  isPreOrder     Boolean  @default(false)  // ¿Es sobre pedido?
-  preOrderDays   String?  // "3 a 5 días" (texto libre)
+  compareAtPrice Float? // ⚠️ Cambiado de "comparePrice"
+  // images[0] = principal, resto = galería
+  images         String[]
+  stock          Int? // Opcional si es "sobre pedido"
+  isPreOrder     Boolean  @default(false) // ¿Es sobre pedido?
+  preOrderDays   String? // "3 a 5 días" (texto libre)
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  
+
   // Relaciones
   categoryId     String
-  category       Category @relation(fields: [categoryId], references: [id])
+  category       Category               @relation(fields: [categoryId], references: [id])
   orderItems     OrderItem[]
   variants       ProductVariant[]
-  
+  specifications ProductSpecification[]
+
   @@index([categoryId])
   @@index([slug])
 }
@@ -56,24 +58,40 @@ model Product {
 // MODELO 2.5: VARIANTES DE PRODUCTO
 // ========================================
 model ProductVariant {
-  id         String   @id @default(cuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
-  color      String?
-  size       String?
-  sku        String?  @unique
-  price      Float?
-  stock      Int      @default(0)
-  imageUrl   String?
-  isActive   Boolean  @default(true)
-  
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  color    String?
+  size     String?
+  sku      String?  @unique
+  price    Float?
+  stock    Int      @default(0)
+  imageUrl String?
+  images   String[] @default([]) // NUEVO: Galería independiente por variante
+  isActive Boolean  @default(true)
+
   orderItems OrderItem[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
   @@index([productId])
   @@index([sku])
+}
+
+// ========================================
+// MODELO 2.6: ESPECIFICACIONES DE PRODUCTO
+// ========================================
+model ProductSpecification {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  key       String // Ej: "Material"
+  value     String // Ej: "Algodón 100%"
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
 }
 
 // ========================================
@@ -92,8 +110,8 @@ model Customer {
   longitude Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  orders    Order[]
+
+  orders Order[]
 }
 
 // ========================================
@@ -111,11 +129,11 @@ model Order {
   notes           String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-  
-  customerId      String
-  customer        Customer    @relation(fields: [customerId], references: [id])
-  items           OrderItem[]
-  
+
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  items      OrderItem[]
+
   @@index([customerId])
   @@index([orderNumber])
 }
@@ -128,16 +146,16 @@ model OrderItem {
   quantity  Int
   price     Float
   createdAt DateTime @default(now())
-  
-  orderId   String
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
-  
+  product   Product @relation(fields: [productId], references: [id])
+
   variantId String?
   variant   ProductVariant? @relation(fields: [variantId], references: [id])
-  
+
   @@index([orderId])
   @@index([productId])
   @@index([variantId])
@@ -185,17 +203,17 @@ enum AccountingSaleStatus {
 }
 
 model AccountingSale {
-  id              String                  @id @default(cuid())
-  productId       String?                 // Referencia solo lectura (no FK a Product)
-  externalItemId  String?
-  externalItem    AccountingExternalItem? @relation(fields: [externalItemId], references: [id], onDelete: SetNull)
-  quantity        Int
-  amount          Float                   // Monto total de la venta
-  status          AccountingSaleStatus    @default(pagado)
-  clientName      String?
-  paymentDate     DateTime?               // Solo si parcial o pendiente
-  createdAt       DateTime                @default(now())
-  updatedAt       DateTime                @updatedAt
+  id             String                  @id @default(cuid())
+  productId      String? // Referencia solo lectura (no FK a Product)
+  externalItemId String?
+  externalItem   AccountingExternalItem? @relation(fields: [externalItemId], references: [id], onDelete: SetNull)
+  quantity       Int
+  amount         Float // Monto total de la venta
+  status         AccountingSaleStatus    @default(pagado)
+  clientName     String?
+  paymentDate    DateTime? // Solo si parcial o pendiente
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
 
   @@index([productId])
   @@index([externalItemId])

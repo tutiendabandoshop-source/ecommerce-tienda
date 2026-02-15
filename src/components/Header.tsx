@@ -3,22 +3,14 @@
 import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import { ShoppingCart, Package, Menu, X, Zap } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
+import CartDrawer from "@/components/CartDrawer";
 
 export default function Header() {
-  const { totalItems } = useCart();
+  const { items, totalItems, isCartDrawerOpen, openCartDrawer, closeCartDrawer } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const navLinks = [
     { href: "/", label: "Inicio", icon: Zap },
@@ -26,42 +18,29 @@ export default function Header() {
   ];
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-gradient-to-r from-secondary-dark via-[#1e3a47] to-secondary-dark/98 backdrop-blur-md shadow-xl py-2 border-b border-primary/20"
-          : "bg-gradient-to-r from-secondary-dark via-[#1e3a47] to-secondary-dark shadow-lg py-0"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`flex justify-between items-center transition-all duration-300 ${
-          isScrolled ? "h-14" : "h-20"
-        }`}>
-          {/* Logo ONSET */}
-          <Link
-            href="/"
-            className="flex items-center gap-3 group"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary rounded-xl blur-md opacity-80 group-hover:opacity-100 transition duration-300" />
-              <div className="relative bg-gradient-to-br from-primary to-coral p-2.5 rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
-            </div>
-            <div>
-              <span className={`font-title tracking-wider text-white transition-all duration-300 ${
-                isScrolled ? "text-2xl" : "text-3xl"
-              }`} style={{ letterSpacing: '0.15em' }}>
-                ONSET
-              </span>
-              <p className="text-[10px] sm:text-xs text-primary/90 font-semibold uppercase tracking-widest hidden sm:block">
-                Tu estilo, tu inicio
-              </p>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-50 bg-secondary-dark/95 backdrop-blur-sm border-b border-white/10 min-h-[56px] lg:min-h-[64px] safe-area-inset-top">
+      <nav className="container mx-auto px-5 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
+        {/* Logo ONSET – compacto */}
+        <Link
+          href="/"
+          className="flex items-center space-x-2 lg:space-x-3"
+          aria-label="Ir a inicio"
+        >
+          <div className="bg-primary p-2 lg:p-2.5 rounded-lg">
+            <Zap className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
+          </div>
+          <div>
+            <span className="block text-white font-bold text-lg lg:text-xl" style={{ letterSpacing: "0.15em" }}>
+              ONSET
+            </span>
+            <span className="block text-primary text-[10px] lg:text-xs uppercase tracking-wider">
+              Tu estilo, tu inicio
+            </span>
+          </div>
+        </Link>
 
-          {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center gap-1">
+        {/* Navegación Desktop */}
+        <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -69,10 +48,10 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
+                  className={`flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
                     isActive
                       ? "bg-gradient-to-r from-primary to-coral text-white shadow-glow"
-                      : "text-white/90 hover:bg-white/10 hover:text-white"
+                      : "text-white/90 hover-capable:hover:bg-white/10 hover-capable:hover:text-white"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -80,39 +59,39 @@ export default function Header() {
                 </Link>
               );
             })}
-          </nav>
+        </div>
 
-          {/* Carrito y Menú Móvil */}
-          <div className="flex items-center gap-3">
-            <Link
-              href="/cart"
-              className="relative group"
+        {/* Carrito – abre drawer */}
+        <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={openCartDrawer}
+              className="relative p-2 lg:p-2.5 bg-primary hover:bg-primary/90 rounded-lg transition-colors flex items-center justify-center min-h-[44px] min-w-[44px]"
+              aria-label="Carrito de compras"
             >
-              <div className="relative p-2.5 rounded-xl bg-gradient-to-r from-primary to-coral text-white shadow-card hover:shadow-glow transition-all duration-300 transform hover:scale-105 active:scale-95">
-                <ShoppingCart className="w-5 h-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-accent-soft text-white text-xs font-bold rounded-full min-w-[22px] h-[22px] flex items-center justify-center animate-pulse shadow-lg">
-                    {totalItems > 99 ? "99+" : totalItems}
-                  </span>
-                )}
-              </div>
-            </Link>
+              <ShoppingCart className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
+              {items.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent-soft text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
+            </button>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl text-white hover:bg-white/10 transition-all duration-300"
-              aria-label="Toggle menu"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl p-3 text-white transition-all duration-300 hover-capable:hover:bg-white/10 md:hidden"
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Menú Móvil */}
+      {/* Menú Móvil – enlaces min 44px altura */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-white/20 bg-secondary-dark/98 backdrop-blur-md animate-slideDown">
-          <nav className="px-4 py-4 space-y-2">
+        <div className="animate-slideDown border-t border-white/20 bg-secondary-dark/98 backdrop-blur-md md:hidden">
+          <nav className="space-y-2 px-5 py-4">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -121,13 +100,13 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                  className={`flex min-h-[48px] items-center gap-4 rounded-xl px-4 py-3 text-base font-semibold transition-all duration-300 ${
                     isActive
                       ? "bg-gradient-to-r from-primary to-coral text-white shadow-glow"
-                      : "text-white/90 hover:bg-white/10"
+                      : "text-white/90 active:bg-white/10"
                   }`}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="h-5 w-5 shrink-0" />
                   <span>{link.label}</span>
                 </Link>
               );
@@ -135,6 +114,8 @@ export default function Header() {
           </nav>
         </div>
       )}
+
+      <CartDrawer isOpen={isCartDrawerOpen} onClose={closeCartDrawer} />
     </header>
   );
 }

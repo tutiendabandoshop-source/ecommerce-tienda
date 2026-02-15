@@ -5,17 +5,18 @@ import Header from '@/components/Header';
 
 async function getProduct(slug: string) {
   const product = await prisma.product.findUnique({
-    where: { 
+    where: {
       slug,
-      isActive: true 
+      isActive: true,
     },
     include: {
       category: true,
       variants: {
         where: { isActive: true },
-        orderBy: { createdAt: 'asc' }
-      }
-    }
+        orderBy: { createdAt: 'asc' },
+      },
+      specifications: { orderBy: { order: 'asc' } },
+    },
   });
 
   if (!product) {
@@ -33,18 +34,19 @@ export default async function ProductDetailPage({
   const { slug } = await params;
   const product = await getProduct(slug);
 
-  // ✅ Transformar el producto para que tenga imageUrl en vez de images
+  // Transformar el producto: images (galería), imageUrl (primera para carrito/OG)
   const transformedProduct = {
     id: product.id,
     name: product.name,
     slug: product.slug,
     description: product.description,
     price: product.price,
-    comparePrice: product.compareAtPrice, // ✅ Mapear compareAtPrice → comparePrice
+    comparePrice: product.compareAtPrice,
     stock: product.stock ?? 0,
     isPreOrder: product.isPreOrder,
     preOrderDays: product.preOrderDays,
-    imageUrl: product.images && product.images.length > 0 ? product.images[0] : null, // ✅ Convertir array → string
+    images: product.images ?? [],
+    imageUrl: product.images && product.images.length > 0 ? product.images[0] : null,
     category: {
       id: product.category.id,
       name: product.category.name,
@@ -57,6 +59,13 @@ export default async function ProductDetailPage({
       price: variant.price,
       stock: variant.stock,
       imageUrl: variant.imageUrl,
+      images: variant.images ?? [],
+    })),
+    specifications: (product.specifications ?? []).map((s) => ({
+      id: s.id,
+      key: s.key,
+      value: s.value,
+      order: s.order,
     })),
   };
 

@@ -1,0 +1,42 @@
+/* ========================================
+   DESIGN SYSTEM – ONSET E-COMMERCE
+   Premium · Audiencia 14-19 años
+   ========================================
+   Añade aquí las variables exactas que indiques.
+   Por ahora incluye la paleta base para mantener compatibilidad.
+   ======================================== */
+
+:root {
+  /* Colores primarios */
+  --color-primary: #FF5722;
+  --color-primary-light: #FF8A65;
+  --color-primary-dark: #E64A19;
+  
+  /* Colores de acción y acentos */
+  --color-action: #2A9D8F;
+  --color-action-light: #5BB5A9;
+  --color-coral: #E76F51;
+  --color-secondary-dark: #264653;
+  --color-salmon: #F4A261;
+  --color-yellow: #FFD166;
+  --color-accent-electric: #00B4D8;
+  --color-accent-soft: #FF6B6B;
+  
+  /* Estados */
+  --color-success: #2A9D8F;
+  --color-error: #FF6B6B;
+  --color-whatsapp: #25D366;
+  
+  /* Fondos */
+  --color-bg-main: #FFFFFF;
+  --color-bg-card: #F8FAFC;
+  --color-bg-hover: #FFF5F2;
+  
+  /* Texto */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #525252;
+  --color-text-muted: #737373;
+  
+  /* Bordes */
+  --color-border: #E5E7EB;
+}

@@ -5,11 +5,16 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import VariantsManager from './VariantsManager';
 import AvailabilitySelector from './AvailabilitySelector';
+import EditProductImagesSection from './EditProductImagesSection';
+import SpecificationsManagerField from '@/components/admin/SpecificationsManagerField';
 
 async function getProduct(id: string) {
   const product = await prisma.product.findUnique({
     where: { id },
-    include: { category: true }
+    include: {
+      category: true,
+      specifications: { orderBy: { order: 'asc' } },
+    },
   });
   
   if (!product) {
@@ -37,7 +42,51 @@ async function updateProduct(formData: FormData) {
   const stockRaw = formData.get('stock') as string;
   const stock = !isPreOrder && stockRaw ? parseInt(stockRaw) : null;
   const categoryId = formData.get('categoryId') as string;
+  const imagesJson = formData.get('imagesJson') as string | null;
   const imageUrl = formData.get('imageUrl') as string | null;
+  const specificationsJson = formData.get('specificationsJson') as string | null;
+
+  // Resolver array de imágenes: preferir imagesJson, sino imageUrl (1 imagen)
+  let images: string[] = [];
+  if (imagesJson && imagesJson.trim() !== '') {
+    try {
+      const parsed = JSON.parse(imagesJson) as unknown;
+      if (Array.isArray(parsed) && parsed.every((x) => typeof x === 'string')) {
+        images = parsed;
+      }
+    } catch {
+      // Si falla el parse, usar imageUrl si existe
+    }
+  }
+  if (images.length === 0 && imageUrl && imageUrl.trim() !== '') {
+    images = [imageUrl];
+  }
+
+  let specifications: { key: string; value: string; order: number }[] = [];
+  if (specificationsJson && specificationsJson.trim() !== '') {
+    try {
+      const parsed = JSON.parse(specificationsJson) as unknown;
+      if (Array.isArray(parsed)) {
+        specifications = parsed
+          .filter(
+            (s: unknown) =>
+              s &&
+              typeof s === 'object' &&
+              'key' in s &&
+              'value' in s &&
+              typeof (s as { key: unknown }).key === 'string' &&
+              typeof (s as { value: unknown }).value === 'string'
+          )
+          .map((s: any, i: number) => ({
+            key: String(s.key),
+            value: String(s.value),
+            order: typeof s.order === 'number' ? s.order : i,
+          }));
+      }
+    } catch {
+      // ignorar JSON inválido
+    }
+  }
 
   // Generar slug automáticamente desde el nombre
   const slug = name
@@ -47,7 +96,6 @@ async function updateProduct(formData: FormData) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-  // ✅ CORRECTO: Usar relación anidada y array de images
   await prisma.product.update({
     where: { id },
     data: {
@@ -61,9 +109,16 @@ async function updateProduct(formData: FormData) {
       category: {
         connect: { id: categoryId }
       },
-      // ✅ Usar images (array) en vez de imageUrl (string)
-      images: imageUrl && imageUrl.trim() !== '' ? [imageUrl] : [],
-    }
+      images,
+      specifications: {
+        deleteMany: {},
+        create: specifications.map((spec) => ({
+          key: spec.key,
+          value: spec.value,
+          order: spec.order,
+        })),
+      },
+    },
   });
 
   revalidatePath('/admin/products');
@@ -176,6 +231,18 @@ export default async function EditProductPage({
             />
           </div>
 
+          {/* Especificaciones Técnicas */}
+          <div className="mb-6">
+            <SpecificationsManagerField
+              name="specificationsJson"
+              initialSpecifications={(product.specifications ?? []).map((s) => ({
+                key: s.key,
+                value: s.value,
+                order: s.order,
+              }))}
+            />
+          </div>
+
           {/* Price */}
           <div>
             <label htmlFor="price" className="block font-medium text-gray-700 mb-2">
@@ -228,23 +295,8 @@ export default async function EditProductPage({
             </select>
           </div>
 
-          {/* Image URL */}
-          <div>
-            <label htmlFor="imageUrl" className="block font-medium text-gray-700 mb-2">
-              URL de la Imagen Principal (opcional)
-            </label>
-            <input
-              type="url"
-              id="imageUrl"
-              name="imageUrl"
-              defaultValue={currentImage ?? ''}
-              className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900"
-              placeholder="https://ejemplo.com/imagen.jpg"
-            />
-            <p className="text-sm text-gray-500 mt-2">
-              Las variantes pueden tener sus propias imágenes
-            </p>
-          </div>
+          {/* Imágenes del Producto (modal ImageStudio) */}
+          <EditProductImagesSection initialImages={product.images ?? []} />
 
           {/* Buttons */}
           <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
