@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-// Función para crear cliente Prisma con pooling deshabilitado en desarrollo
+// Función para crear cliente Prisma con configuración optimizada para Vercel
 function createPrismaClient() {
   return new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
@@ -8,7 +8,7 @@ function createPrismaClient() {
       db: {
         url: process.env.NODE_ENV === 'production'
           ? process.env.DATABASE_URL
-          : process.env.DIRECT_URL, // Usar DIRECT_URL en desarrollo para evitar pooling issues
+          : process.env.DIRECT_URL, // Usar DIRECT_URL en desarrollo
       },
     },
   });
