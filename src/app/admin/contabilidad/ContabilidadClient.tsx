@@ -415,31 +415,31 @@ export default function ContabilidadClient() {
     <div>
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="font-title text-3xl font-bold tracking-wider text-secondary-dark flex items-center gap-3">
-            <DollarSign className="w-8 h-8 text-primary" />
+          <h2 className="font-serif text-3xl font-semibold text-[#2D2D2D] flex items-center gap-3">
+            <DollarSign className="w-8 h-8 text-[#CB997E]" />
             Contabilidad
           </h2>
-          <p className="font-medium text-gray-600 mt-2">Reporte financiero ONSET</p>
+          <p className="font-sans text-[#6B6B6B] mt-1">Reporte financiero</p>
         </div>
         <button
           type="button"
           onClick={handleResetContabilidad}
           disabled={resetLoading}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-white bg-coral hover:bg-coral-dark border-2 border-coral-dark/80 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-soft hover:shadow-hover"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-[#9B6B6B] bg-[#F5E0DC] hover:bg-[#EDD4CF] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
         >
           <RotateCcw className="w-5 h-5" />
           {resetLoading ? 'Reseteando...' : 'Reset de Contabilidad'}
         </button>
       </div>
 
-      <div className="flex gap-2 mb-6 border-b border-gray-200">
+      <div className="flex gap-2 mb-6 border-b border-[#EDEDED]">
         <button
           type="button"
           onClick={() => setActiveTab('resumen')}
-          className={`px-6 py-3 font-semibold rounded-t-xl transition-all duration-200 flex items-center gap-2 ${
+          className={`px-6 py-3 font-semibold rounded-t-lg transition-all duration-200 flex items-center gap-2 ${
             activeTab === 'resumen'
-              ? 'bg-white border-2 border-b-0 border-primary text-primary shadow-soft -mb-0.5'
-              : 'text-gray-500 hover:text-secondary-dark hover:bg-gray-50'
+              ? 'bg-white border border-[#EDEDED] border-b-0 text-[#CB997E] -mb-px'
+              : 'text-[#6B6B6B] hover:text-[#2D2D2D] hover:bg-[#F8F4F1]'
           }`}
         >
           <BarChart3 className="w-5 h-5" />
@@ -448,10 +448,10 @@ export default function ContabilidadClient() {
         <button
           type="button"
           onClick={() => setActiveTab('ventas')}
-          className={`px-6 py-3 font-semibold rounded-t-xl transition-all duration-200 flex items-center gap-2 ${
+          className={`px-6 py-3 font-semibold rounded-t-lg transition-all duration-200 flex items-center gap-2 ${
             activeTab === 'ventas'
-              ? 'bg-white border-2 border-b-0 border-primary text-primary shadow-soft -mb-0.5'
-              : 'text-gray-500 hover:text-secondary-dark hover:bg-gray-50'
+              ? 'bg-white border border-[#EDEDED] border-b-0 text-[#CB997E] -mb-px'
+              : 'text-[#6B6B6B] hover:text-[#2D2D2D] hover:bg-[#F8F4F1]'
           }`}
         >
           <Package className="w-5 h-5" />
@@ -460,10 +460,10 @@ export default function ContabilidadClient() {
         <button
           type="button"
           onClick={() => setActiveTab('gastos')}
-          className={`px-6 py-3 font-semibold rounded-t-xl transition-all duration-200 flex items-center gap-2 ${
+          className={`px-6 py-3 font-semibold rounded-t-lg transition-all duration-200 flex items-center gap-2 ${
             activeTab === 'gastos'
-              ? 'bg-white border-2 border-b-0 border-action text-action shadow-soft -mb-0.5'
-              : 'text-gray-500 hover:text-secondary-dark hover:bg-gray-50'
+              ? 'bg-white border border-[#EDEDED] border-b-0 text-[#CB997E] -mb-px'
+              : 'text-[#6B6B6B] hover:text-[#2D2D2D] hover:bg-[#F8F4F1]'
           }`}
         >
           <TrendingDown className="w-5 h-5" />
@@ -473,39 +473,39 @@ export default function ContabilidadClient() {
 
       {activeTab === 'resumen' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6 border-t-4 border-t-primary">
-            <p className="text-sm font-semibold text-gray-600">Ingresos totales</p>
-            <p className="font-title text-2xl text-primary mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Ingresos totales</p>
+            <p className="font-serif text-2xl font-semibold text-[#CB997E] mt-1">
               ${resumen.ingresosTotales.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6 border-t-4 border-t-action">
-            <p className="text-sm font-semibold text-gray-600">Gastos totales</p>
-            <p className="font-title text-2xl text-error mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Gastos totales</p>
+            <p className="font-serif text-2xl font-semibold text-[#9B6B6B] mt-1">
               ${resumen.gastosTotales.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6 border-t-4 border-t-secondary-salmon">
-            <p className="text-sm font-semibold text-gray-600">Saldo total</p>
-            <p className="font-title text-2xl text-secondary-dark mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Saldo total</p>
+            <p className="font-serif text-2xl font-semibold text-[#2D2D2D] mt-1">
               ${resumen.saldoTotal.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <p className="text-sm font-semibold text-gray-600">Ingresos del día</p>
-            <p className="font-title text-xl text-primary mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Ingresos del día</p>
+            <p className="font-serif text-xl font-semibold text-[#CB997E] mt-1">
               ${resumen.ingresosDia.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <p className="text-sm font-semibold text-gray-600">Gastos del día</p>
-            <p className="font-title text-xl text-error mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Gastos del día</p>
+            <p className="font-serif text-xl font-semibold text-[#9B6B6B] mt-1">
               ${resumen.gastosDia.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
-          <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <p className="text-sm font-semibold text-gray-600">Saldo del día</p>
-            <p className="font-title text-xl text-secondary-dark mt-1">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6">
+            <p className="font-sans text-sm font-semibold text-[#6B6B6B]">Saldo del día</p>
+            <p className="font-serif text-xl font-semibold text-[#2D2D2D] mt-1">
               ${resumen.saldoDia.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </div>
@@ -515,7 +515,7 @@ export default function ContabilidadClient() {
       {activeTab === 'ventas' && (
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <h3 className="font-title text-xl text-secondary-dark mb-4">Añadir Venta</h3>
+            <h3 className="font-serif text-xl font-semibold text-[#2D2D2D] mb-4">Añadir Venta</h3>
             <form onSubmit={handleAddSale} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Producto</label>
@@ -523,14 +523,14 @@ export default function ContabilidadClient() {
                   <button
                     type="button"
                     onClick={() => { setUseExternal(false); setShowAddExternal(false); setAmount(''); setSelectedVariantId(''); }}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!useExternal ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!useExternal ? 'bg-[#CB997E] text-white' : 'bg-[#F8F4F1] text-[#6B6B6B]'}`}
                   >
                     Catálogo
                   </button>
                   <button
                     type="button"
                     onClick={() => { setUseExternal(true); setSelectedVariantId(''); setAmount(''); }}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium ${useExternal ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium ${useExternal ? 'bg-[#CB997E] text-white' : 'bg-[#F8F4F1] text-[#6B6B6B]'}`}
                   >
                     Producto externo
                   </button>
@@ -732,27 +732,27 @@ export default function ContabilidadClient() {
               <button
                 type="submit"
                 disabled={saleSubmitting}
-                className="w-full bg-gradient-to-r from-primary to-coral text-white font-bold py-3 rounded-xl shadow-glow hover:shadow-hover transition-all duration-300 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-[#CB997E] hover:bg-[#B8886E] text-white font-semibold py-3 rounded-lg transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {saleSubmitting ? 'Guardando...' : 'Añadir Venta'}
               </button>
             </form>
           </div>
           <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <h3 className="font-title text-xl text-secondary-dark mb-4">Últimas ventas</h3>
+            <h3 className="font-serif text-xl font-semibold text-[#2D2D2D] mb-4">Últimas ventas</h3>
             <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
               {sales.length === 0 ? (
-                <p className="text-gray-500 text-sm">Aún no hay ventas registradas.</p>
+                <p className="font-sans text-[#6B6B6B] text-sm">Aún no hay ventas registradas.</p>
               ) : (
-                <table className="w-full text-sm">
-                  <thead className="sticky top-0 bg-white border-b border-gray-200">
+                <table className="w-full text-sm min-w-[500px]">
+                  <thead className="sticky top-0 bg-[#F8F4F1] border-b border-[#EDEDED]">
                     <tr>
-                      <th className="text-left py-2 font-semibold text-gray-700">Producto</th>
-                      <th className="text-left py-2 font-semibold text-gray-700">Cliente</th>
-                      <th className="text-left py-2 font-semibold text-gray-700">Cantidad</th>
-                      <th className="text-left py-2 font-semibold text-gray-700">Total</th>
-                      <th className="text-left py-2 font-semibold text-gray-700">Estado</th>
-                      <th className="text-left py-2 font-semibold text-gray-700">Acción</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Producto</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Cliente</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Cantidad</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Total</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Estado</th>
+                      <th className="text-left py-2 px-4 font-serif font-semibold text-[#2D2D2D]">Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -781,11 +781,11 @@ export default function ContabilidadClient() {
                             {s.status}
                           </span>
                         </td>
-                        <td className="py-2 px-4 border-b border-gray-100">
+                        <td className="py-2 px-4 border-b border-[#EDEDED]">
                           <button
                             type="button"
                             onClick={() => openEditModal(s)}
-                            className="text-blue-600 hover:text-blue-800 text-sm"
+                            className="text-[#CB997E] hover:text-[#B8886E] font-sans font-medium text-sm"
                           >
                             Editar
                           </button>
@@ -803,7 +803,7 @@ export default function ContabilidadClient() {
       {activeTab === 'gastos' && (
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <h3 className="font-title text-xl text-secondary-dark mb-4">Añadir Gasto</h3>
+            <h3 className="font-serif text-xl font-semibold text-[#2D2D2D] mb-4">Añadir Gasto</h3>
             <form onSubmit={handleAddExpense} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Descripción</label>
@@ -842,14 +842,14 @@ export default function ContabilidadClient() {
               <button
                 type="submit"
                 disabled={expSubmitting}
-                className="w-full bg-gradient-to-r from-action to-accent-electric text-white font-bold py-3 rounded-xl shadow-float hover:shadow-hover transition-all duration-300 disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full bg-[#CB997E] hover:bg-[#B8886E] text-white font-semibold py-3 rounded-lg transition-all duration-200 disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {expSubmitting ? 'Guardando...' : 'Añadir Gasto'}
               </button>
             </form>
           </div>
           <div className="bg-white rounded-2xl shadow-soft border-2 border-gray-100 p-6">
-            <h3 className="font-title text-xl text-secondary-dark mb-4">Últimos gastos</h3>
+            <h3 className="font-serif text-xl font-semibold text-[#2D2D2D] mb-4">Últimos gastos</h3>
             <div className="space-y-2 max-h-[500px] overflow-y-auto">
               {expenses.length === 0 ? (
                 <p className="text-gray-500 text-sm">Aún no hay gastos registrados.</p>
@@ -869,8 +869,8 @@ export default function ContabilidadClient() {
 
       {isEditing && editingVenta && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white p-6 rounded-xl max-w-md w-full">
-            <h2 className="font-bold text-lg mb-4">Editar Venta</h2>
+          <div className="bg-white p-6 rounded-2xl border border-[#EDEDED] shadow-sm max-w-md w-full">
+            <h2 className="font-serif font-semibold text-[#2D2D2D] text-lg mb-4">Editar Venta</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Monto Pagado</label>
@@ -942,14 +942,14 @@ export default function ContabilidadClient() {
                     setIsEditing(false);
                     setEditingVenta(null);
                   }}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                  className="px-4 py-2 bg-[#F2E7E2] text-[#CB997E] rounded-lg font-semibold hover:bg-[#E8D9D2]"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveEdit}
-                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90"
+                  className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-4 py-2 rounded-lg font-semibold"
                 >
                   Guardar
                 </button>

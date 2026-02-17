@@ -80,7 +80,7 @@ export default function ProductCard({
     e.stopPropagation();
     const preOrderText = isPreOrder ? ` (⚠️ Sobre pedido: ${preOrderDays || "consultar"})` : "";
     const message =
-      `Hola, me interesa el producto: *${name}*${preOrderText}\n\n` +
+      `Hola Áurea, me interesa el producto: *${name}*${preOrderText}\n\n` +
       `Precio: $${price.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN\n` +
       "¿Está disponible?";
     window.open(`https://wa.me/5219516111552?text=${encodeURIComponent(message)}`, "_blank");
@@ -118,7 +118,7 @@ export default function ProductCard({
         </Link>
         {showBadge && badgeText && (
           <span
-            className="absolute right-2 top-2 sm:right-3 sm:top-3 z-10 rounded-full bg-[#E8C1C0] px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-white shadow-sm"
+            className="absolute right-2 top-2 sm:right-3 sm:top-3 z-10 rounded-full bg-[#E8C1C0]/20 px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold text-[#CB997E] shadow-sm"
             aria-hidden
           >
             {badgeText}
@@ -128,7 +128,7 @@ export default function ProductCard({
         <button
           type="button"
           onClick={handleWhatsApp}
-          className="sm:hidden absolute bottom-2 right-2 z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#E8C1C0] bg-white/95 shadow-md backdrop-blur-sm text-[#E8C1C0] transition-all duration-200 hover:bg-[#E8C1C0]/20 tap-scale"
+          className="sm:hidden absolute bottom-2 right-2 z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-[#CB997E] bg-white/95 shadow-md backdrop-blur-sm text-[#CB997E] transition-all duration-300 hover:bg-[#CB997E]/10 tap-scale"
           aria-label="Consultar por WhatsApp"
         >
           <WhatsAppIcon className="h-5 w-5" />
@@ -168,7 +168,7 @@ export default function ProductCard({
           <button
             type="button"
             onClick={handleWhatsApp}
-            className="hidden sm:flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-[#E8C1C0] bg-transparent py-2 text-[#E8C1C0] text-sm font-medium transition-all duration-200 ease-out hover:bg-[#E8C1C0]/10 tap-scale"
+            className="hidden sm:flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border-2 border-[#CB997E] bg-transparent py-2 text-[#CB997E] text-sm font-medium transition-all duration-300 hover:bg-[#CB997E]/10 tap-scale"
             aria-label="Consultar por WhatsApp"
           >
             <WhatsAppIcon className="h-5 w-5 shrink-0" />
@@ -178,7 +178,7 @@ export default function ProductCard({
             type="button"
             onClick={handleAddToCart}
             disabled={!isAvailable || isAdding}
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-[#E8C1C0] py-2.5 sm:py-2 text-white text-sm font-semibold transition-all duration-200 ease-out hover:bg-[#dfb3b2] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 tap-scale"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full bg-[#CB997E] py-2.5 sm:py-2 text-white text-sm font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 tap-scale"
           >
             {isAdding ? (
               <div className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-white/30 border-t-white" />

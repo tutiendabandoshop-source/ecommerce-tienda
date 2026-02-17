@@ -22,9 +22,9 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
   const mainImage = images[selectedIndex];
 
   return (
-    <div className="space-y-4">
-      {/* Imagen principal grande */}
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-card-border/30 group">
+    <div className="space-y-4 w-full max-w-full min-w-0">
+      {/* Imagen principal: sin ancho fijo para no desbordar en móvil */}
+      <div className="relative aspect-square w-full max-w-full rounded-xl overflow-hidden bg-card-border/30 group">
         <Image
           src={mainImage}
           alt={`${productName} - Imagen ${selectedIndex + 1}`}
@@ -37,7 +37,7 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
 
       {/* Miniaturas debajo (si hay más de una) - táctiles: 72x72 en móvil */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide [-webkit-overflow-scrolling:touch]">
+        <div className="flex gap-2 overflow-x-auto overflow-y-hidden pb-1 scrollbar-hide [-webkit-overflow-scrolling:touch] w-full max-w-full">
           {images.map((url, idx) => (
             <button
               key={idx}

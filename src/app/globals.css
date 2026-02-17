@@ -60,7 +60,7 @@
 }
 
 /* ========================================
-   COMPONENTES ONSET – BOTONES URBANOS
+   COMPONENTES ÁUREA – BOTONES
    ======================================== */
 @layer components {
   .btn-primary {
@@ -159,7 +159,7 @@
 }
 
 /* ========================================
-   UTILIDADES ONSET
+   UTILIDADES ÁUREA
    ======================================== */
 @layer utilities {
   .gradient-onset {
@@ -446,25 +446,38 @@
 }
 
 /* ========================================
-   SCROLLBAR ONSET
+   SCROLLBAR ÁUREA
    ======================================== */
+/* ========================================
+   SCROLLBAR NOVA – integrado con fondo hueso y rosa empolvado
+   ======================================== */
+/* Firefox: barra delgada, colores marca (body + contenedores con overflow) */
+body,
+.overflow-x-auto,
+.overflow-y-auto,
+.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #E8C1C0 #FDFAF7;
+}
+
+/* Webkit (Chrome, Safari, Edge): barra muy delgada y discreta */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #FFF5F2;
-  border-radius: 4px;
+  background: #FDFAF7;
+  border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #FF5722, #2A9D8F);
-  border-radius: 4px;
+  background: rgba(232, 193, 192, 0.3);
+  border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #E64A19, #248277);
+  background: rgba(232, 193, 192, 0.6);
 }
 
 /* ========================================

@@ -27,22 +27,22 @@ const bebasNeue = Bebas_Neue({
 
 export const metadata: Metadata = {
   title: {
-    default: "ONSET – Tu estilo, tu inicio",
-    template: "%s | ONSET",
+    default: "Áurea – Tu estilo, tu esencia",
+    template: "%s | Áurea",
   },
-  description: "E-commerce juvenil. Ropa, accesorios y más. Envío rápido. ONSET – energía, inicio, impacto.",
-  keywords: ["ONSET", "tienda", "ecommerce", "juvenil", "urbano", "moda", "compras online"],
-  authors: [{ name: "ONSET" }],
+  description: "Belleza que te acompaña. Productos que realzan tu esencia. Envío rápido. Áurea – elegancia y cuidado.",
+  keywords: ["Áurea", "tienda", "ecommerce", "belleza", "cuidado personal", "moda", "compras online"],
+  authors: [{ name: "Áurea" }],
   icons: {
     icon: "/Fabicon.ico",
   },
   openGraph: {
     type: "website",
     locale: "es_MX",
-    url: "https://onset.com",
-    siteName: "ONSET",
-    title: "ONSET – Tu estilo, tu inicio",
-    description: "E-commerce juvenil. Energía, inicio, impacto.",
+    url: "https://aurea.com",
+    siteName: "Áurea",
+    title: "Áurea – Tu estilo, tu esencia",
+    description: "Belleza que te acompaña. Elegancia y cuidado.",
   },
   robots: {
     index: true,

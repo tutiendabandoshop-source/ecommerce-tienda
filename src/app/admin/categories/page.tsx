@@ -40,14 +40,14 @@ export default async function CategoriesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Categorías</h1>
-          <p className="text-gray-600 mt-1">Gestiona las categorías de productos</p>
+          <h1 className="font-serif text-3xl font-semibold text-[#2D2D2D]">Categorías</h1>
+          <p className="font-sans text-[#6B6B6B] mt-1">Gestiona las categorías de productos</p>
         </div>
         <Link
           href="/admin/categories/new"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition flex items-center space-x-2"
+          className="inline-flex items-center gap-2 bg-[#CB997E] hover:bg-[#B8886E] text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-sm"
         >
           <Plus className="w-5 h-5" />
           <span>Nueva Categoría</span>
@@ -55,112 +55,94 @@ export default async function CategoriesPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 border border-[#EDEDED]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Total Categorías</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">
-                {totalCategories}
-              </p>
+              <p className="font-sans text-sm text-[#6B6B6B]">Total Categorías</p>
+              <p className="font-serif text-3xl font-semibold text-[#2D2D2D] mt-2">{totalCategories}</p>
             </div>
-            <div className="bg-blue-100 p-4 rounded-lg">
-              <FolderTree className="w-8 h-8 text-blue-600" />
+            <div className="bg-[#F2E7E2] p-3 rounded-lg">
+              <FolderTree className="w-6 h-6 text-[#CB997E]" />
             </div>
           </div>
         </div>
-
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 border border-[#EDEDED]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Total Productos</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">
-                {totalProducts}
-              </p>
+              <p className="font-sans text-sm text-[#6B6B6B]">Total Productos</p>
+              <p className="font-serif text-3xl font-semibold text-[#2D2D2D] mt-2">{totalProducts}</p>
             </div>
-            <div className="bg-green-100 p-4 rounded-lg">
-              <Package className="w-8 h-8 text-green-600" />
+            <div className="bg-[#F8F4F1] p-3 rounded-lg">
+              <Package className="w-6 h-6 text-[#CB997E]" />
             </div>
           </div>
         </div>
-
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-white rounded-2xl shadow-sm p-6 border border-[#EDEDED]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Promedio productos/categoría</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">
-                {totalCategories > 0
-                  ? Math.round(totalProducts / totalCategories)
-                  : 0}
+              <p className="font-sans text-sm text-[#6B6B6B]">Promedio productos/categoría</p>
+              <p className="font-serif text-3xl font-semibold text-[#2D2D2D] mt-2">
+                {totalCategories > 0 ? Math.round(totalProducts / totalCategories) : 0}
               </p>
             </div>
-            <div className="bg-purple-100 p-4 rounded-lg">
-              <FolderTree className="w-8 h-8 text-purple-600" />
+            <div className="bg-[#F2E7E2] p-3 rounded-lg">
+              <FolderTree className="w-6 h-6 text-[#CB997E]" />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Nombre
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Slug
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Productos
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Fecha creación
-              </th>
-              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Acciones
-              </th>
+      <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse">
+            <thead>
+              <tr className="bg-[#F8F4F1] border-b border-[#EDEDED]">
+              <th className="px-6 py-4 text-left font-serif font-semibold text-[#2D2D2D]">Nombre</th>
+              <th className="px-6 py-4 text-left font-serif font-semibold text-[#2D2D2D]">Slug</th>
+              <th className="px-6 py-4 text-left font-serif font-semibold text-[#2D2D2D]">Productos</th>
+              <th className="px-6 py-4 text-left font-serif font-semibold text-[#2D2D2D]">Fecha creación</th>
+              <th className="px-6 py-4 text-right font-serif font-semibold text-[#2D2D2D]">Acciones</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {categories.map((category) => (
-              <tr key={category.id} className="hover:bg-gray-50 transition">
+              <tr key={category.id} className="bg-white border-b border-[#EDEDED] hover:bg-[#FDFAF7] transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="bg-blue-100 p-2 rounded-lg mr-3">
-                      <FolderTree className="w-5 h-5 text-blue-600" />
+                    <div className="bg-[#F2E7E2] p-2 rounded-lg mr-3">
+                      <FolderTree className="w-5 h-5 text-[#CB997E]" />
                     </div>
-                    <span className="text-sm font-medium text-gray-900">
-                      {category.name}
-                    </span>
+                    <span className="font-sans text-sm font-medium text-[#2D2D2D]">{category.name}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm text-gray-600 font-mono bg-gray-100 px-2 py-1 rounded">
+                  <span className="font-sans text-sm text-[#6B6B6B] font-mono bg-[#F8F4F1] px-2 py-1 rounded">
                     {category.slug}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-sans font-medium bg-[#F2E7E2] text-[#CB997E]">
                     {category._count.products} productos
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <td className="px-6 py-4 whitespace-nowrap font-sans text-sm text-[#6B6B6B]">
                   {new Date(category.createdAt).toLocaleDateString("es-MX")}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex items-center justify-end space-x-3">
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  <div className="flex items-center justify-end gap-2">
                     <Link
                       href={`/admin/categories/${category.id}/edit`}
-                      className="text-blue-600 hover:text-blue-800 transition"
+                      className="inline-flex items-center justify-center w-9 h-9 bg-[#F2E7E2] hover:bg-[#E8D9D2] text-[#CB997E] rounded-lg transition-colors"
+                      title="Editar"
                     >
                       <Pencil className="w-5 h-5" />
                     </Link>
-                    <form action={deleteCategory}>
+                    <form action={deleteCategory} className="inline">
                       <input type="hidden" name="id" value={category.id} />
                       <button
                         type="submit"
                         disabled={category._count.products > 0}
-                        className="text-red-600 hover:text-red-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center justify-center w-9 h-9 bg-[#F5E0DC] hover:bg-[#EDD4CF] text-[#9B6B6B] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         title={
                           category._count.products > 0
                             ? "No se puede eliminar una categoría con productos"
@@ -179,16 +161,17 @@ export default async function CategoriesPage() {
 
         {categories.length === 0 && (
           <div className="text-center py-12">
-            <FolderTree className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">No hay categorías registradas</p>
+            <FolderTree className="w-16 h-16 text-[#6B6B6B] mx-auto mb-4" />
+            <p className="font-sans text-[#6B6B6B] text-lg">No hay categorías registradas</p>
             <Link
               href="/admin/categories/new"
-              className="text-blue-600 hover:text-blue-800 font-semibold mt-2 inline-block"
+              className="inline-block mt-2 font-sans font-semibold text-[#CB997E] hover:text-[#B8886E] transition-colors"
             >
               Crear primera categoría
             </Link>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -31,6 +31,18 @@ module.exports = {
         success: '#C7E0C7',
         warning: '#F7E6C4',
         border: '#EDEDED',
+        /* Áurea – Panel Admin (Elegante/Zen) */
+        nova: {
+          page: '#FDFAF7',
+          accent: '#CB997E',
+          accentHover: '#B8886E',
+          editBg: '#F2E7E2',
+          deleteBg: '#F5E0DC',
+          sidebarBorder: '#EDEDED',
+          tableHeader: '#F8F4F1',
+          title: '#2D2D2D',
+          muted: '#6B6B6B',
+        },
       },
       fontFamily: {
         serif: ['Cormorant Garamond', ...defaultTheme.fontFamily.serif],

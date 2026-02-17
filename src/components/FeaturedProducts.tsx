@@ -88,7 +88,7 @@ export default function FeaturedProducts() {
             Lo nuevo
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-wide mb-4">
-            Lo mejor de TuMarca
+            Lo mejor de Áurea
           </h2>
           <p className="mx-auto max-w-2xl text-base text-text-secondary sm:text-lg">
             Productos elegidos para ti. Elige el tuyo.
@@ -146,7 +146,7 @@ export default function FeaturedProducts() {
         <div className="mt-10 text-center sm:mt-12">
           <Link
             href="/shop"
-            className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-full bg-secondary text-secondary-foreground px-8 py-4 text-base font-semibold transition-all duration-200 ease-out hover:bg-secondary/90 hover:scale-[1.02] active:scale-[0.98] tap-scale"
+            className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-full bg-[#CB997E] text-white px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] tap-scale"
           >
             <span>Ver todos los productos</span>
             <ArrowRight className="ml-2 h-5 w-5" />

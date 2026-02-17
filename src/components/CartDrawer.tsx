@@ -34,7 +34,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const [showConfirmClear, setShowConfirmClear] = useState(false);
 
   const handleCheckout = () => {
-    let messageText = "¡Hola! Me interesan estos productos de mi carrito:\n\n";
+    let messageText = "¡Hola Áurea! Me interesan estos productos de mi carrito:\n\n";
     items.forEach((item) => {
       const variantText = item.variantDetails ? ` (${item.variantDetails})` : "";
       const preOrderText = item.isPreOrder
@@ -216,7 +216,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <button
                     type="button"
                     onClick={handleCheckout}
-                    className="cta-brillar relative flex w-full min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#E8C1C0] text-white py-4 px-6 text-base font-semibold transition-all duration-200 hover:bg-[#dfb3b2] tap-scale overflow-hidden"
+                    className="cta-brillar relative flex w-full min-h-[52px] items-center justify-center gap-2 rounded-full bg-[#CB997E] text-white py-4 px-6 text-base font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg tap-scale overflow-hidden"
                   >
                     <WhatsAppIcon className="h-5 w-5 shrink-0" />
                     Contactar por WhatsApp
@@ -224,7 +224,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <Link
                     href="/shop"
                     onClick={onClose}
-                    className="flex w-full min-h-[48px] items-center justify-center py-3 px-4 text-center text-sm text-[#E8C1C0] font-medium underline underline-offset-2 hover:text-[#dfb3b2] transition-colors duration-200 tap-scale"
+                    className="flex w-full min-h-[48px] items-center justify-center py-3 px-4 text-center text-sm text-[#CB997E] font-medium underline underline-offset-2 hover:text-[#B58369] transition-colors duration-200 tap-scale"
                   >
                     Continuar comprando
                   </Link>

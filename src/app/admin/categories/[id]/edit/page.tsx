@@ -80,55 +80,43 @@ export default function EditCategoryPage({
 
   return (
     <div>
-      {/* Header */}
       <div className="mb-8">
         <Link
           href="/admin/categories"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+          className="inline-flex items-center font-sans text-[#CB997E] hover:text-[#B8886E] mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Volver a categorías
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900">Editar Categoría</h1>
-        <p className="text-gray-600 mt-1">Actualiza la información de la categoría</p>
+        <h1 className="font-serif text-3xl font-semibold text-[#2D2D2D]">Editar Categoría</h1>
+        <p className="font-sans text-[#6B6B6B] mt-1">Actualiza la información de la categoría</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Preview */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-md p-6 sticky top-8">
-            <h3 className="font-semibold text-gray-900 mb-4">Vista Actual</h3>
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6 sticky top-8">
+            <h3 className="font-serif font-semibold text-[#2D2D2D] mb-4">Vista Actual</h3>
             <div className="space-y-4">
-              <div className="bg-blue-50 p-4 rounded-lg flex items-center space-x-3">
-                <FolderTree className="w-8 h-8 text-blue-600" />
+              <div className="bg-[#F2E7E2] p-4 rounded-lg flex items-center space-x-3">
+                <FolderTree className="w-8 h-8 text-[#CB997E]" />
                 <div>
-                  <p className="font-semibold text-gray-900">{name}</p>
-                  <p className="text-sm text-gray-600 font-mono">{slug}</p>
+                  <p className="font-sans font-semibold text-[#2D2D2D]">{name}</p>
+                  <p className="font-sans text-sm text-[#6B6B6B] font-mono">{slug}</p>
                 </div>
               </div>
-              <div className="text-sm text-gray-600">
-                <p>
-                  <span className="font-semibold">Productos:</span> {productsCount}
-                </p>
-                <p className="mt-2 text-xs text-gray-500">
-                  💡 El slug no se puede modificar para mantener la integridad de
-                  las URLs
-                </p>
+              <div className="font-sans text-sm text-[#6B6B6B]">
+                <p><span className="font-semibold text-[#2D2D2D]">Productos:</span> {productsCount}</p>
+                <p className="mt-2 text-xs">💡 El slug no se puede modificar para mantener la integridad de las URLs</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl shadow-md p-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6 md:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Nombre */}
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
+                <label htmlFor="name" className="block font-sans text-sm font-semibold text-[#2D2D2D] mb-2">
                   Nombre de la categoría *
                 </label>
                 <input
@@ -138,16 +126,11 @@ export default function EditCategoryPage({
                   onChange={(e) => setName(e.target.value)}
                   required
                   placeholder="Ejemplo: Electrónica, Ropa, Hogar..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] font-sans text-[#2D2D2D]"
                 />
               </div>
-
-              {/* Slug (solo lectura) */}
               <div>
-                <label
-                  htmlFor="slug"
-                  className="block text-sm font-semibold text-gray-700 mb-2"
-                >
+                <label htmlFor="slug" className="block font-sans text-sm font-semibold text-[#2D2D2D] mb-2">
                   Slug (URL)
                 </label>
                 <input
@@ -155,26 +138,22 @@ export default function EditCategoryPage({
                   id="slug"
                   value={slug}
                   disabled
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 font-mono text-sm cursor-not-allowed"
+                  className="w-full px-4 py-3 border border-[#EDEDED] rounded-lg bg-[#F8F4F1] text-[#6B6B6B] font-mono text-sm cursor-not-allowed"
                 />
-                <p className="text-sm text-gray-500 mt-1">
-                  El slug no se puede modificar una vez creado
-                </p>
+                <p className="font-sans text-sm text-[#6B6B6B] mt-1">El slug no se puede modificar una vez creado</p>
               </div>
-
-              {/* Botones */}
-              <div className="flex items-center space-x-4 pt-6 border-t">
+              <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-[#EDEDED]">
                 <button
                   type="submit"
                   disabled={isSubmitting || !name}
-                  className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 bg-[#CB997E] hover:bg-[#B8886E] text-white py-3 px-6 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Save className="w-5 h-5" />
                   <span>{isSubmitting ? "Guardando..." : "Guardar Cambios"}</span>
                 </button>
                 <Link
                   href="/admin/categories"
-                  className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 transition flex items-center justify-center space-x-2"
+                  className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 bg-[#F2E7E2] text-[#CB997E] py-3 px-6 rounded-lg font-semibold hover:bg-[#E8D9D2] transition-colors"
                 >
                   <X className="w-5 h-5" />
                   <span>Cancelar</span>

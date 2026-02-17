@@ -25,11 +25,11 @@ export default function Header() {
       <div className="container mx-auto flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-2 text-text-primary transition-colors duration-200 ease-out hover:text-secondary"
+          className="flex items-center gap-2 text-text-primary transition-colors duration-200 ease-out hover:text-[#CB997E]"
           aria-label="Ir a inicio"
         >
-          <FiHeart className="w-6 h-6 text-secondary shrink-0" aria-hidden />
-          <span className="font-serif text-2xl font-semibold">TuMarca</span>
+          <FiHeart className="w-6 h-6 text-[#CB997E] shrink-0" aria-hidden />
+          <span className="font-serif text-2xl font-semibold">Áurea</span>
         </Link>
 
         {/* Navegación escritorio */}
@@ -38,8 +38,8 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative py-2 text-text-primary transition-all duration-200 ease-out hover:text-secondary after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-secondary after:transition-all after:duration-200 after:ease-out hover:after:w-full ${
-                pathname === link.href ? "font-semibold text-secondary after:w-full" : "after:w-0"
+              className={`relative py-2 text-text-primary transition-all duration-200 ease-out hover:text-[#CB997E] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-[#CB997E] after:transition-all after:duration-200 after:ease-out hover:after:w-full ${
+                pathname === link.href ? "font-semibold text-[#CB997E] after:w-full" : "after:w-0"
               }`}
             >
               {link.label}
@@ -52,19 +52,19 @@ export default function Header() {
           <button
             type="button"
             onClick={openCartDrawer}
-            className="relative p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full transition-all duration-200 ease-out hover:bg-secondary/10 hover:text-secondary active:scale-95 tap-scale"
+            className="relative p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full transition-all duration-200 ease-out hover:bg-[#CB997E]/10 hover:text-[#CB997E] active:scale-95 tap-scale"
             aria-label="Carrito de compras"
           >
             <ShoppingCart className="w-6 h-6 text-text-primary" />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-[#CB997E] text-white text-xs font-medium rounded-full w-5 h-5 flex items-center justify-center">
                 {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}
           </button>
           <button
             type="button"
-            className="md:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-text-primary rounded-full transition-all duration-200 ease-out hover:bg-secondary/10 hover:text-secondary active:scale-95 tap-scale"
+            className="md:hidden p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-text-primary rounded-full transition-all duration-200 ease-out hover:bg-[#CB997E]/10 hover:text-[#CB997E] active:scale-95 tap-scale"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={isMenuOpen}
@@ -83,8 +83,8 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`min-h-[44px] flex items-center px-4 py-3 rounded-xl transition-all duration-200 ease-out hover:bg-secondary/10 hover:text-secondary active:scale-[0.98] ${
-                  pathname === link.href ? "text-secondary font-medium bg-secondary/5" : "text-text-primary"
+                className={`min-h-[44px] flex items-center px-4 py-3 rounded-xl transition-all duration-200 ease-out hover:bg-[#CB997E]/10 hover:text-[#CB997E] active:scale-[0.98] ${
+                  pathname === link.href ? "text-[#CB997E] font-medium bg-[#CB997E]/5" : "text-text-primary"
                 }`}
               >
                 {link.label}

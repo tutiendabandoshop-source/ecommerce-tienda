@@ -161,14 +161,14 @@ export default function VariantsManager({ productId, basePrice }: Props) {
     <div className="mt-8 border-t pt-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">Variantes del Producto</h3>
-          <p className="text-sm text-gray-600 mt-1">
+          <h3 className="font-serif text-xl font-semibold text-[#2D2D2D]">Variantes del Producto</h3>
+          <p className="font-sans text-sm text-[#6B6B6B] mt-1">
             Colores, tallas y combinaciones disponibles
           </p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+          className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-4 py-2 rounded-lg font-semibold transition flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Nueva Variante
@@ -177,7 +177,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
 
       {/* Formulario */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <form onSubmit={handleSubmit} className="bg-[#F8F4F1] border border-[#EDEDED] rounded-2xl p-6 mb-6">
           <h4 className="font-semibold text-gray-900 mb-4">
             {editingId ? 'Editar Variante' : 'Nueva Variante'}
           </h4>
@@ -192,7 +192,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 name="color"
                 value={formData.color}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full px-4 py-2 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] text-gray-900"
                 placeholder="Ej: Rojo, Azul, Negro"
               />
             </div>
@@ -206,7 +206,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 name="size"
                 value={formData.size}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full px-4 py-2 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] text-gray-900"
                 placeholder="Ej: S, M, L, XL"
               />
             </div>
@@ -222,7 +222,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 name="sku"
                 value={formData.sku}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full px-4 py-2 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] text-gray-900"
                 placeholder="PROD-COLOR-TALLA"
               />
             </div>
@@ -237,7 +237,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 step="0.01"
                 value={formData.price}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full px-4 py-2 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] text-gray-900"
                 placeholder={`Base: $${basePrice}`}
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -256,7 +256,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 required
                 value={formData.stock}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full px-4 py-2 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] text-gray-900"
               />
             </div>
           </div>
@@ -279,7 +279,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                   }))
                 );
               }}
-              className="bg-[#2A9D8F] hover:bg-[#238276] text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+              className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2"
             >
               <Upload className="w-4 h-4" />
               Gestionar Imágenes ({formData.images?.length || 0})
@@ -313,7 +313,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
                 name="isActive"
                 checked={formData.isActive}
                 onChange={handleInputChange}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-blue-600 border-[#EDEDED] rounded focus:ring-[#CB997E] focus:border-[#CB997E]"
               />
               <span className="text-sm font-medium text-gray-700">
                 Variante activa (visible en tienda)
@@ -325,14 +325,14 @@ export default function VariantsManager({ productId, basePrice }: Props) {
           <div className="flex gap-3">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+              className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-6 py-2 rounded-lg font-semibold transition disabled:opacity-50"
             >
               {editingId ? 'Actualizar' : 'Crear'} Variante
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition"
+              className="bg-[#F2E7E2] text-[#CB997E] px-6 py-2 rounded-lg font-semibold hover:bg-[#E8D9D2] transition"
             >
               Cancelar
             </button>
@@ -354,7 +354,7 @@ export default function VariantsManager({ productId, basePrice }: Props) {
             <div
               key={variant.id}
               className={`border rounded-lg p-4 ${
-                variant.isActive ? 'bg-white border-gray-200' : 'bg-gray-50 border-gray-300 opacity-60'
+                variant.isActive ? 'bg-white border-gray-200' : 'bg-gray-50 border-[#EDEDED] opacity-60'
               }`}
             >
               {(variant.images?.[0] ?? variant.imageUrl) && (
@@ -394,14 +394,14 @@ export default function VariantsManager({ productId, basePrice }: Props) {
               <div className="flex gap-2 mt-4">
                 <button
                   onClick={() => handleEdit(variant)}
-                  className="flex-1 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-1 text-sm"
+                  className="flex-1 bg-[#F2E7E2] text-[#CB997E] px-3 py-2 rounded-lg hover:bg-[#E8D9D2] transition flex items-center justify-center gap-1 text-sm font-semibold"
                 >
                   <Edit2 className="w-4 h-4" />
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(variant.id)}
-                  className="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition flex items-center justify-center"
+                  className="bg-[#F5E0DC] text-[#9B6B6B] px-3 py-2 rounded-lg hover:bg-[#EDD4CF] transition flex items-center justify-center"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

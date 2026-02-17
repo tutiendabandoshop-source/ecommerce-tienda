@@ -100,76 +100,60 @@ export default function NewProductPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-0">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Nuevo Producto</h1>
-        <p className="text-gray-600 mt-2">
-          Completa el formulario para agregar un nuevo producto
-        </p>
+        <h1 className="font-serif text-3xl font-semibold text-[#2D2D2D]">Nuevo Producto</h1>
+        <p className="font-sans text-[#6B6B6B] mt-1">Completa el formulario para agregar un nuevo producto</p>
       </div>
 
-      {/* ✅ NUEVO: Aviso sobre variantes */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl">
+      <div className="bg-[#F8F4F1] border border-[#EDEDED] rounded-2xl p-4 mb-6 max-w-2xl">
         <div className="flex gap-3">
-          <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-[#CB997E] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <div className="text-sm text-blue-900">
+          <div className="font-sans text-sm text-[#2D2D2D]">
             <p className="font-semibold mb-1">💡 ¿Tienes variantes?</p>
-            <p className="text-blue-800">
+            <p className="text-[#6B6B6B]">
               Después de crear el producto podrás agregar <strong>colores, tallas y otras variantes</strong> con precios y stock independientes.
             </p>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 max-w-2xl">
-        {/* Nombre */}
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6 max-w-2xl">
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-2">
-            Nombre del Producto *
-          </label>
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Nombre del Producto *</label>
           <input
             type="text"
             name="name"
             required
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+            className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
             placeholder="Ej: Vestido de Seda"
           />
         </div>
-
-        {/* Slug */}
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-2">
-            Slug (URL amigable) *
-          </label>
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Slug (URL amigable) *</label>
           <input
             type="text"
             name="slug"
             required
             value={formData.slug}
             onChange={handleInputChange}
-            className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400 bg-gray-50"
+            className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] bg-[#F8F4F1] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
             placeholder="Se genera automáticamente"
           />
-          <p className="text-xs text-gray-500 mt-1">
-            URL: /shop/{formData.slug || 'slug-del-producto'}
-          </p>
+          <p className="font-sans text-xs text-[#6B6B6B] mt-1">URL: /shop/{formData.slug || 'slug-del-producto'}</p>
         </div>
-
-        {/* Descripción */}
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-2">
-            Descripción
-          </label>
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Descripción</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleInputChange}
             rows={4}
-            className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+            className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
             placeholder="Descripción detallada del producto..."
           />
         </div>
@@ -184,17 +168,14 @@ export default function NewProductPage() {
           />
         </div>
 
-        {/* Categoría */}
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-2">
-            Categoría *
-          </label>
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Categoría *</label>
           <select
             name="categoryId"
             required
             value={formData.categoryId}
             onChange={handleInputChange}
-            className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900"
+            className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
           >
             <option value="">Selecciona una categoría</option>
             {categories.map((cat: any) => (
@@ -205,12 +186,9 @@ export default function NewProductPage() {
           </select>
         </div>
 
-        {/* Precio y Precio Comparativo */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block font-medium text-gray-700 mb-2">
-              Precio Base *
-            </label>
+            <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Precio Base *</label>
             <input
               type="number"
               name="price"
@@ -219,17 +197,13 @@ export default function NewProductPage() {
               min="0"
               value={formData.price}
               onChange={handleInputChange}
-              className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+              className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
               placeholder="0.00"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Puedes ajustar por variante después
-            </p>
+            <p className="font-sans text-xs text-[#6B6B6B] mt-1">Puedes ajustar por variante después</p>
           </div>
           <div>
-            <label className="block font-medium text-gray-700 mb-2">
-              Precio Comparativo
-            </label>
+            <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Precio Comparativo</label>
             <input
               type="number"
               name="comparePrice"
@@ -237,19 +211,16 @@ export default function NewProductPage() {
               min="0"
               value={formData.comparePrice}
               onChange={handleInputChange}
-              className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+              className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
               placeholder="0.00"
             />
           </div>
         </div>
 
-        {/* Disponibilidad: Stock o Sobre pedido */}
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-2">
-            Disponibilidad
-          </label>
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Disponibilidad</label>
           <div className="flex items-center gap-4 mb-3">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 font-sans text-[#2D2D2D]">
               <input
                 type="radio"
                 checked={!formData.isPreOrder}
@@ -261,16 +232,16 @@ export default function NewProductPage() {
                     preOrderDaysEnd: 5,
                   }))
                 }
-                className="h-4 w-4 text-primary"
+                className="h-4 w-4 text-[#CB997E]"
               />
               <span>Stock normal</span>
             </label>
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 font-sans text-[#2D2D2D]">
               <input
                 type="radio"
                 checked={formData.isPreOrder}
                 onChange={() => setFormData((prev) => ({ ...prev, isPreOrder: true }))}
-                className="h-4 w-4 text-primary"
+                className="h-4 w-4 text-[#CB997E]"
               />
               <span>Sobre pedido</span>
             </label>
@@ -278,11 +249,9 @@ export default function NewProductPage() {
 
           {formData.isPreOrder ? (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Días de entrega estimados
-              </label>
+              <label className="block font-sans text-sm font-medium text-[#2D2D2D] mb-1">Días de entrega estimados</label>
               <div className="flex items-center gap-2">
-                <div className="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden focus-within:border-blue-500">
+                <div className="flex items-center border border-[#EDEDED] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#CB997E]">
                   <button
                     type="button"
                     onClick={() =>
@@ -291,7 +260,7 @@ export default function NewProductPage() {
                         preOrderDaysStart: Math.max(1, prev.preOrderDaysStart - 1),
                       }))
                     }
-                    className="px-2 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold"
+                    className="px-2 py-1.5 bg-[#F8F4F1] hover:bg-[#F2E7E2] text-[#2D2D2D] font-semibold"
                   >
                     ↓
                   </button>
@@ -305,20 +274,20 @@ export default function NewProductPage() {
                         preOrderDaysStart: Math.max(1, parseInt(e.target.value) || 1),
                       }))
                     }
-                    className="w-12 text-center border-none focus:ring-0 py-1.5 text-gray-900"
+                    className="w-12 text-center border-none focus:ring-0 py-1.5 font-sans text-[#2D2D2D]"
                   />
                   <button
                     type="button"
                     onClick={() =>
                       setFormData((prev) => ({ ...prev, preOrderDaysStart: prev.preOrderDaysStart + 1 }))
                     }
-                    className="px-2 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold"
+                    className="px-2 py-1.5 bg-[#F8F4F1] hover:bg-[#F2E7E2] text-[#2D2D2D] font-semibold"
                   >
                     ↑
                   </button>
                 </div>
-                <span className="text-gray-600 font-medium">a</span>
-                <div className="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden focus-within:border-blue-500">
+                <span className="font-sans text-[#6B6B6B] font-medium">a</span>
+                <div className="flex items-center border border-[#EDEDED] rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-[#CB997E]">
                   <button
                     type="button"
                     onClick={() =>
@@ -330,7 +299,7 @@ export default function NewProductPage() {
                         ),
                       }))
                     }
-                    className="px-2 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold"
+                    className="px-2 py-1.5 bg-[#F8F4F1] hover:bg-[#F2E7E2] text-[#2D2D2D] font-semibold"
                   >
                     ↓
                   </button>
@@ -347,26 +316,24 @@ export default function NewProductPage() {
                         ),
                       }))
                     }
-                    className="w-12 text-center border-none focus:ring-0 py-1.5 text-gray-900"
+                    className="w-12 text-center border-none focus:ring-0 py-1.5 font-sans text-[#2D2D2D]"
                   />
                   <button
                     type="button"
                     onClick={() =>
                       setFormData((prev) => ({ ...prev, preOrderDaysEnd: prev.preOrderDaysEnd + 1 }))
                     }
-                    className="px-2 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold"
+                    className="px-2 py-1.5 bg-[#F8F4F1] hover:bg-[#F2E7E2] text-[#2D2D2D] font-semibold"
                   >
                     ↑
                   </button>
                 </div>
-                <span className="text-gray-600 font-medium">días</span>
+                <span className="font-sans text-[#6B6B6B] font-medium">días</span>
               </div>
             </div>
           ) : (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Stock Base *
-              </label>
+              <label className="block font-sans text-sm font-medium text-[#2D2D2D] mb-1">Stock Base *</label>
               <input
                 type="number"
                 name="stock"
@@ -374,22 +341,16 @@ export default function NewProductPage() {
                 min="0"
                 value={formData.stock}
                 onChange={handleInputChange}
-                className="w-full border-2 border-gray-300 focus:border-blue-500 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400"
+                className="w-full border border-[#EDEDED] rounded-lg px-4 py-2 font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
                 placeholder="0"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                El stock de variantes es independiente
-              </p>
+              <p className="font-sans text-xs text-[#6B6B6B] mt-1">El stock de variantes es independiente</p>
             </div>
           )}
         </div>
 
-        {/* Imágenes del Producto */}
         <div className="mb-6">
-          <label className="block font-medium text-gray-700 mb-2">
-            Imágenes del Producto
-          </label>
-          
+          <label className="block font-sans font-medium text-[#2D2D2D] mb-2">Imágenes del Producto</label>
           <button
             type="button"
             onClick={() => {
@@ -402,7 +363,7 @@ export default function NewProductPage() {
               );
               setStudioOpen(true);
             }}
-            className="bg-[#FF5722] hover:bg-[#E64A19] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-orange-500/30 flex items-center gap-2"
+            className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm inline-flex items-center gap-2"
           >
             <Upload className="w-5 h-5" />
             Gestionar Imágenes ({formData.images.length})
@@ -415,25 +376,24 @@ export default function NewProductPage() {
                   key={idx}
                   src={url}
                   alt={`Imagen ${idx + 1}`}
-                  className="w-full aspect-square object-cover rounded-lg border-2 border-gray-200"
+                  className="w-full aspect-square object-cover rounded-lg border border-[#EDEDED]"
                 />
               ))}
             </div>
           )}
 
-          <p className="text-xs text-gray-500 mt-2">
-            {formData.images.length === 0 
-              ? 'Aún no has agregado imágenes. Máximo 8 imágenes.' 
+          <p className="font-sans text-xs text-[#6B6B6B] mt-2">
+            {formData.images.length === 0
+              ? 'Aún no has agregado imágenes. Máximo 8 imágenes.'
               : `${formData.images.length}/8 imágenes • La primera es la principal`}
           </p>
         </div>
 
-        {/* Botones */}
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 min-w-[160px] bg-[#CB997E] hover:bg-[#B8886E] text-white font-semibold py-3 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Creando...' : 'Crear Producto y Agregar Variantes'}
           </button>
@@ -441,7 +401,7 @@ export default function NewProductPage() {
             type="button"
             onClick={() => router.push('/admin/products')}
             disabled={loading}
-            className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 text-gray-700 font-semibold"
+            className="px-6 py-3 bg-[#F2E7E2] text-[#CB997E] rounded-lg hover:bg-[#E8D9D2] transition disabled:opacity-50 font-sans font-semibold"
           >
             Cancelar
           </button>

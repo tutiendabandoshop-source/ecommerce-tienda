@@ -133,22 +133,22 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       ? `, Variante: ${selectedVariant.color || ''}${selectedVariant.color && selectedVariant.size ? ' - ' : ''}${selectedVariant.size || ''}`.trim()
       : '';
     const message =
-      `Hola, me interesa el producto: *${product.name}*${preOrderText}${variantDetails}\n\n` +
+      `Hola Áurea, me interesa el producto: *${product.name}*${preOrderText}${variantDetails}\n\n` +
       `Precio: $${currentPrice.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN\n` +
       `Cantidad: ${quantity}\n\n¿Está disponible?`;
     window.open(`https://wa.me/5219516111552?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
-        {/* Galería (Paso 5: imagen principal + miniaturas vía ProductGallery) */}
-        <div className="h-fit md:sticky md:top-24">
+    <div className="w-full max-w-full overflow-x-hidden container mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 min-w-0">
+        {/* Galería: min-w-0 evita que el grid desborde en móvil */}
+        <div className="min-w-0 w-full h-fit md:sticky md:top-24">
           <ProductGallery images={galleryImages} productName={galleryProductName} />
         </div>
 
         {/* Información */}
-        <div>
+        <div className="min-w-0 w-full">
           <Link
             href={`/shop?category=${product.category.id}`}
             className="text-xs font-semibold uppercase tracking-widest text-text-secondary hover:text-secondary transition-colors duration-200 tap-scale"
@@ -312,7 +312,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
               type="button"
               onClick={handleAddToCart}
               disabled={!canAddToCart || isAdding}
-              className="flex-1 min-h-[48px] flex items-center justify-center gap-2 rounded-full bg-[#E8C1C0] text-white text-sm sm:text-base font-semibold whitespace-nowrap transition-all duration-200 hover:bg-[#dfb3b2] active:scale-[0.98] disabled:bg-border disabled:text-text-secondary disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-95 tap-scale px-6"
+              className="flex-1 min-h-[48px] flex items-center justify-center gap-2 rounded-full bg-[#CB997E] text-white text-sm sm:text-base font-semibold whitespace-nowrap transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg active:scale-[0.98] disabled:bg-border disabled:text-text-secondary disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-95 tap-scale px-6"
             >
               {isAdding ? (
                 <>
@@ -329,7 +329,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <button
               type="button"
               onClick={handleWhatsAppRedirect}
-              className="flex-1 min-h-[48px] flex items-center justify-center gap-2 rounded-full border border-[#E8C1C0] bg-transparent text-[#E8C1C0] text-sm sm:text-base font-medium whitespace-nowrap transition-all duration-200 hover:bg-[#E8C1C0]/10 tap-scale px-6"
+              className="flex-1 min-h-[48px] flex items-center justify-center gap-2 rounded-full border-2 border-[#CB997E] bg-transparent text-[#CB997E] text-sm sm:text-base font-medium whitespace-nowrap transition-all duration-300 hover:bg-[#CB997E]/10 tap-scale px-6"
             >
               <WhatsAppIcon className="w-5 h-5 shrink-0" />
               <span>Consultar por WhatsApp</span>

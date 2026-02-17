@@ -53,30 +53,22 @@ export default function NewCategoryPage() {
 
   return (
     <div>
-      {/* Header */}
       <div className="mb-8">
         <Link
           href="/admin/categories"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
+          className="inline-flex items-center font-sans text-[#CB997E] hover:text-[#B8886E] mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Volver a categorías
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900">Nueva Categoría</h1>
-        <p className="text-gray-600 mt-1">
-          Crea una nueva categoría para organizar tus productos
-        </p>
+        <h1 className="font-serif text-3xl font-semibold text-[#2D2D2D]">Nueva Categoría</h1>
+        <p className="font-sans text-[#6B6B6B] mt-1">Crea una nueva categoría para organizar tus productos</p>
       </div>
 
-      {/* Form */}
-      <div className="bg-white rounded-xl shadow-md p-8 max-w-2xl">
+      <div className="bg-white rounded-2xl shadow-sm border border-[#EDEDED] p-6 md:p-8 max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Nombre */}
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-semibold text-gray-700 mb-2"
-            >
+            <label htmlFor="name" className="block font-sans text-sm font-semibold text-[#2D2D2D] mb-2">
               Nombre de la categoría *
             </label>
             <input
@@ -86,19 +78,12 @@ export default function NewCategoryPage() {
               onChange={(e) => handleNameChange(e.target.value)}
               required
               placeholder="Ejemplo: Electrónica, Ropa, Hogar..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] font-sans text-[#2D2D2D] placeholder:text-[#6B6B6B]"
             />
-            <p className="text-sm text-gray-500 mt-1">
-              Este es el nombre que verán tus clientes
-            </p>
+            <p className="font-sans text-sm text-[#6B6B6B] mt-1">Este es el nombre que verán tus clientes</p>
           </div>
-
-          {/* Slug */}
           <div>
-            <label
-              htmlFor="slug"
-              className="block text-sm font-semibold text-gray-700 mb-2"
-            >
+            <label htmlFor="slug" className="block font-sans text-sm font-semibold text-[#2D2D2D] mb-2">
               Slug (URL) *
             </label>
             <input
@@ -108,32 +93,29 @@ export default function NewCategoryPage() {
               onChange={(e) => setSlug(e.target.value)}
               required
               placeholder="electronica"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+              className="w-full px-4 py-3 border border-[#EDEDED] rounded-lg focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E] font-mono text-sm text-[#2D2D2D]"
             />
-            <p className="text-sm text-gray-500 mt-1">
-              Se genera automáticamente, pero puedes editarlo. Solo letras
-              minúsculas, números y guiones.
+            <p className="font-sans text-sm text-[#6B6B6B] mt-1">
+              Se genera automáticamente, pero puedes editarlo. Solo letras minúsculas, números y guiones.
             </p>
             {slug && (
-              <p className="text-sm text-blue-600 mt-2">
+              <p className="font-sans text-sm text-[#CB997E] mt-2">
                 Vista previa: <span className="font-mono">/shop?category={slug}</span>
               </p>
             )}
           </div>
-
-          {/* Botones */}
-          <div className="flex items-center space-x-4 pt-6 border-t">
+          <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-[#EDEDED]">
             <button
               type="submit"
               disabled={isSubmitting || !name || !slug}
-              className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 bg-[#CB997E] hover:bg-[#B8886E] text-white py-3 px-6 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-5 h-5" />
               <span>{isSubmitting ? "Creando..." : "Crear Categoría"}</span>
             </button>
             <Link
               href="/admin/categories"
-              className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-300 transition flex items-center justify-center space-x-2"
+              className="flex-1 min-w-[140px] inline-flex items-center justify-center gap-2 bg-[#F2E7E2] text-[#CB997E] py-3 px-6 rounded-lg font-semibold hover:bg-[#E8D9D2] transition-colors"
             >
               <X className="w-5 h-5" />
               <span>Cancelar</span>
@@ -142,10 +124,9 @@ export default function NewCategoryPage() {
         </form>
       </div>
 
-      {/* Info adicional */}
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl">
-        <h3 className="font-semibold text-blue-900 mb-2">💡 Consejos:</h3>
-        <ul className="text-sm text-blue-800 space-y-1">
+      <div className="mt-6 bg-[#F8F4F1] border border-[#EDEDED] rounded-2xl p-4 max-w-2xl">
+        <h3 className="font-serif font-semibold text-[#2D2D2D] mb-2">💡 Consejos</h3>
+        <ul className="font-sans text-sm text-[#6B6B6B] space-y-1">
           <li>• Usa nombres cortos y descriptivos</li>
           <li>• El slug debe ser único y no se puede cambiar después</li>
           <li>• Las categorías ayudan a organizar tu catálogo de productos</li>

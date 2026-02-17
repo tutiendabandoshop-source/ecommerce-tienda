@@ -23,7 +23,7 @@ export default function CartPage() {
 
   const handleWhatsAppClick = () => {
     const phoneNumber = "5219516111552";
-    let messageText = "¡Hola! Me interesan estos productos de mi carrito:\n\n";
+    let messageText = "¡Hola Áurea! Me interesan estos productos de mi carrito:\n\n";
 
     items.forEach((item) => {
       const variantText = item.variantDetails ? ` (${item.variantDetails})` : "";
@@ -58,7 +58,7 @@ export default function CartPage() {
             <p className="text-text-secondary mb-8">Llénalo con productos que te acompañan</p>
             <Link
               href="/shop"
-              className="inline-flex items-center justify-center min-h-[48px] bg-[#E8C1C0] text-white px-10 py-4 rounded-full font-semibold transition-all duration-200 ease-out hover:bg-[#dfb3b2] hover:scale-[1.02] active:scale-[0.98] tap-scale"
+              className="inline-flex items-center justify-center min-h-[48px] bg-[#CB997E] text-white px-10 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] tap-scale"
             >
               Explorar productos
             </Link>
@@ -133,7 +133,7 @@ export default function CartPage() {
 
                 <div className="flex-1 min-w-0">
                   <Link href={item.variantId ? `/shop/${item.slug}?variant=${encodeURIComponent(item.variantId)}` : `/shop/${item.slug}`} className="hover:underline underline-offset-1">
-                    <h2 className="font-serif font-semibold text-text-primary line-clamp-2 hover:text-secondary transition-colors">
+                    <h2 className="font-serif font-semibold text-text-primary line-clamp-2 hover:text-[#CB997E] transition-colors">
                       {item.name}
                     </h2>
                   </Link>
@@ -207,7 +207,7 @@ export default function CartPage() {
               <button
                 type="button"
                 onClick={handleWhatsAppClick}
-                className="cta-brillar relative w-full min-h-[52px] flex items-center justify-center gap-2 rounded-full bg-[#E8C1C0] text-white py-4 px-6 text-base font-semibold transition-all duration-200 hover:bg-[#dfb3b2] tap-scale overflow-hidden"
+                className="cta-brillar relative w-full min-h-[52px] flex items-center justify-center gap-2 rounded-full bg-[#CB997E] text-white py-4 px-6 text-base font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg tap-scale overflow-hidden"
               >
                 <WhatsAppIcon className="shrink-0 h-5 w-5" />
                 Contactar por WhatsApp
@@ -215,7 +215,7 @@ export default function CartPage() {
 
               <Link
                 href="/shop"
-                className="block w-full min-h-[44px] mt-4 text-center text-[#E8C1C0] font-medium text-sm py-3 underline underline-offset-2 hover:text-[#dfb3b2] transition-colors duration-200"
+                className="block w-full min-h-[44px] mt-4 text-center text-[#CB997E] font-medium text-sm py-3 underline underline-offset-2 hover:text-[#B58369] transition-colors duration-200"
               >
                 Continuar comprando
               </Link>

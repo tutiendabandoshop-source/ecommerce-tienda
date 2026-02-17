@@ -107,8 +107,8 @@ export default async function ShopPage({
             href={params.search ? `${shopBase}?search=${encodeURIComponent(params.search)}` : shopBase}
             className={`min-h-[44px] px-4 py-2.5 rounded-full border text-sm font-medium transition-colors duration-200 ease-out tap-scale ${
               !params.category
-                ? "bg-[#E8C1C0] text-white border-[#E8C1C0]"
-                : "bg-card border-border text-text-secondary hover:border-[#E8C1C0] hover:scale-[1.02] active:scale-[0.98]"
+                ? "bg-[#CB997E] text-white border-[#CB997E]"
+                : "bg-card border-border text-text-secondary hover:border-[#CB997E] hover:scale-[1.02] active:scale-[0.98]"
             }`}
           >
             Todas
@@ -124,8 +124,8 @@ export default async function ShopPage({
                 href={href}
                 className={`min-h-[44px] px-4 py-2.5 rounded-full border text-sm font-medium transition-colors duration-200 ease-out tap-scale ${
                   isSelected
-                    ? "bg-[#E8C1C0] text-white border-[#E8C1C0]"
-                    : "bg-card border-border text-text-secondary hover:border-[#E8C1C0] hover:scale-[1.02] active:scale-[0.98]"
+                    ? "bg-[#CB997E] text-white border-[#CB997E]"
+                    : "bg-card border-border text-text-secondary hover:border-[#CB997E] hover:scale-[1.02] active:scale-[0.98]"
                 }`}
               >
                 {cat.name}
@@ -205,7 +205,7 @@ export default async function ShopPage({
             </p>
             <Link
               href={shopBase}
-              className="inline-flex items-center min-h-[44px] bg-[#E8C1C0] text-white px-8 py-3 rounded-full font-semibold transition-all duration-200 ease-out hover:bg-[#dfb3b2] hover:scale-[1.02] active:scale-[0.98] tap-scale"
+              className="inline-flex items-center min-h-[44px] bg-[#CB997E] text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:bg-[#B58369] hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] tap-scale"
             >
               Ver todos
             </Link>

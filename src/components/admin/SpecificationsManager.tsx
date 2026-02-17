@@ -48,13 +48,13 @@ export default function SpecificationsManager({ specifications, onChange }: Prop
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="block font-medium text-gray-700">
+        <label className="block font-sans font-medium text-[#2D2D2D]">
           Especificaciones Técnicas
         </label>
         <button
           type="button"
           onClick={addSpec}
-          className="text-sm bg-[#2A9D8F] text-white px-3 py-1.5 rounded-lg hover:bg-[#238276] transition flex items-center gap-1"
+          className="text-sm bg-[#CB997E] hover:bg-[#B8886E] text-white px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-semibold"
         >
           <Plus className="w-4 h-4" />
           Agregar
@@ -62,21 +62,21 @@ export default function SpecificationsManager({ specifications, onChange }: Prop
       </div>
 
       {specs.length === 0 ? (
-        <p className="text-sm text-gray-500 italic">
+        <p className="font-sans text-sm text-[#6B6B6B] italic">
           Sin especificaciones. Click &quot;Agregar&quot; para crear una.
         </p>
       ) : (
         <div className="space-y-2">
           {specs.map((spec, idx) => (
             <div key={idx} className="flex items-center gap-2">
-              <GripVertical className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <GripVertical className="w-4 h-4 text-[#6B6B6B] flex-shrink-0" />
 
               <input
                 type="text"
                 placeholder="Nombre (ej: Material)"
                 value={spec.key}
                 onChange={(e) => updateSpec(idx, 'key', e.target.value)}
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#FF5722] focus:ring-1 focus:ring-[#FF5722]"
+                className="flex-1 border border-[#EDEDED] rounded-lg px-3 py-2 text-sm font-sans text-[#2D2D2D] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
               />
 
               <input
@@ -84,15 +84,15 @@ export default function SpecificationsManager({ specifications, onChange }: Prop
                 placeholder="Valor (ej: Algodón 100%)"
                 value={spec.value}
                 onChange={(e) => updateSpec(idx, 'value', e.target.value)}
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#FF5722] focus:ring-1 focus:ring-[#FF5722]"
+                className="flex-1 border border-[#EDEDED] rounded-lg px-3 py-2 text-sm font-sans text-[#2D2D2D] focus:ring-2 focus:ring-[#CB997E] focus:border-[#CB997E]"
               />
 
               <button
                 type="button"
                 onClick={() => deleteSpec(idx)}
-                className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition flex-shrink-0"
+                className="p-2 bg-[#F5E0DC] hover:bg-[#EDD4CF] text-[#9B6B6B] rounded-lg transition flex-shrink-0"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-5 h-5" />
               </button>
             </div>
           ))}

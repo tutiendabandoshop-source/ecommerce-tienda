@@ -85,7 +85,7 @@ export default function CartToast({
           </p>
         </div>
 
-        {/* Action Button - paleta ONSET */}
+        {/* Action Button - paleta Áurea */}
         <button
           type="button"
           onClick={() => {

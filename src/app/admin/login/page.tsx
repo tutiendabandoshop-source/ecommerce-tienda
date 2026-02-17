@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-coral mb-4 shadow-glow">
             <Zap className="w-8 h-8 text-white" />
           </div>
-          <h1 className="font-title text-3xl font-bold tracking-wider text-secondary-dark">ONSET Admin</h1>
+          <h1 className="font-title text-3xl font-bold tracking-wider text-secondary-dark">Áurea Admin</h1>
           <p className="text-gray-600 mt-2 font-medium">Iniciar sesión para continuar</p>
         </div>
 
@@ -101,7 +101,7 @@ export default function AdminLoginPage() {
 
         <div className="mt-6 text-center">
           <a href="/" className="text-primary hover:text-primary-dark text-sm font-bold transition-colors">
-            ← Volver a ONSET
+            ← Volver a Áurea
           </a>
         </div>
       </div>

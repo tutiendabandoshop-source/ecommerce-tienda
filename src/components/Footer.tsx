@@ -26,7 +26,7 @@ export default function Footer() {
           {/* Columna 1: Logo/marca + descripción breve */}
           <div className="sm:max-w-xs">
             <h3 className="mb-3 font-serif text-xl font-semibold text-text-primary">
-              TuMarca
+              Áurea
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed">
               Belleza y bienestar para tu día a día. Productos pensados para ti.
@@ -147,7 +147,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-10 pt-6 border-t border-gray-300/60 text-center text-sm text-text-secondary">
-          © {new Date().getFullYear()} TuMarca. Todos los derechos reservados.
+          © {new Date().getFullYear()} Áurea. Todos los derechos reservados.
         </div>
       </div>
     </footer>

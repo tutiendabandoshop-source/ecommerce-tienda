@@ -32,14 +32,14 @@ export default function EditProductImagesSection({ initialImages }: EditProductI
   return (
     <>
       <div>
-        <label className="block font-medium text-gray-700 mb-2">
+        <label className="block font-sans font-medium text-[#2D2D2D] mb-2">
           Imágenes del Producto
         </label>
 
         <button
           type="button"
           onClick={openModal}
-          className="bg-[#FF5722] hover:bg-[#E64A19] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-orange-500/30 flex items-center gap-2"
+          className="bg-[#CB997E] hover:bg-[#B8886E] text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm inline-flex items-center gap-2"
         >
           <Upload className="w-5 h-5" />
           Gestionar Imágenes ({images.length})
@@ -52,13 +52,13 @@ export default function EditProductImagesSection({ initialImages }: EditProductI
                 key={idx}
                 src={url}
                 alt={`Imagen ${idx + 1}`}
-                className="w-full aspect-square object-cover rounded-lg border-2 border-gray-200"
+                className="w-full aspect-square object-cover rounded-lg border border-[#EDEDED]"
               />
             ))}
           </div>
         )}
 
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="font-sans text-xs text-[#6B6B6B] mt-2">
           {images.length === 0
             ? 'Aún no has agregado imágenes. Máximo 8 imágenes.'
             : `${images.length}/8 imágenes • La primera es la principal`}
