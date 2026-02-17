@@ -1,6 +1,8 @@
 /* Design System – variables CSS centralizadas (debe ir primero) */
 @import './styles/design-system.css';
 
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,18 +16,47 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  html {
+    @apply text-text-primary;
+    font-size: 16px; /* base */
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-primary text-text-primary;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+  h1 {
+    @apply text-4xl md:text-5xl font-semibold;
+  }
+  h2 {
+    @apply text-4xl md:text-5xl; /* un poco más grande */
+  }
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  p {
+    @apply text-text-secondary text-base;
+  }
+  /* Área táctil suficiente (WCAG 2.5.5: mínimo 44×44px) + hover suave */
+  button, a {
+    @apply cursor-pointer;
+    min-height: 44px;
+    min-width: 44px;
+    transition: all 0.2s ease;
+  }
 
-body {
-  font-family: var(--font-inter), 'Inter', 'Open Sans', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(180deg, #FFF9F7 0%, #FFFFFF 30%, #F0FDFA 100%);
-  color: var(--color-text-primary);
-  min-height: 100vh;
+  /* Mejora táctil: feedback al tocar sin highlight azul por defecto */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
 }
 
 /* ========================================
@@ -33,14 +64,14 @@ body {
    ======================================== */
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold
-           px-6 py-3 rounded-xl shadow-card hover:shadow-hover
-           transition-all duration-300 ease-out transform hover:scale-105 active:scale-95
-           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply bg-secondary text-white px-6 py-3 rounded-xl
+           transition-all duration-200 ease-out
+           hover:bg-secondary/90 hover:scale-105 hover:shadow-md
+           active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2;
   }
 
   .btn-action {
-    @apply bg-gradient-to-r from-action-500 to-action-600 text-white font-bold
+    @apply bg-secondary text-secondary-foreground font-bold
            px-6 py-3 rounded-xl shadow-card hover:shadow-float
            transition-all duration-300 ease-out transform hover:scale-105 active:scale-95;
   }
@@ -53,31 +84,42 @@ body {
   }
 
   .btn-cart {
-    @apply bg-gradient-to-r from-coral to-primary-500 text-white font-bold
+    @apply bg-secondary text-secondary-foreground font-bold
            px-5 py-2.5 rounded-xl shadow-card hover:shadow-hover
            transition-all duration-300 ease-out transform hover:scale-105 active:scale-95;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-500 text-primary-500 hover:bg-primary-500
-           hover:text-white font-bold px-6 py-3 rounded-xl
-           transition-all duration-300 ease-out;
+    @apply border border-secondary text-secondary px-6 py-3 rounded-xl
+           transition-all duration-200 ease-out
+           hover:bg-secondary/5 hover:scale-105
+           active:scale-95 focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:ring-offset-2;
   }
 
   .product-card {
-    @apply bg-white rounded-card shadow-soft hover:shadow-hover
+    @apply bg-white rounded-card shadow-soft
            transition-all duration-300 ease-out overflow-hidden cursor-pointer
-           border-2 border-transparent hover:border-primary-200
-           transform hover:-translate-y-2 hover:scale-[1.02];
+           border-2 border-transparent;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .product-card:hover {
+      @apply shadow-hover -translate-y-2 border-secondary/50;
+      transform: translateY(-2px) scale(1.02);
+    }
+  }
+  .product-card:active {
+    transform: scale(0.99);
   }
 
   .badge-stock-low {
-    @apply inline-flex items-center gap-1 bg-warning/20 text-secondary-dark
+    @apply inline-flex items-center gap-1 bg-warning/20 text-text-primary
            px-3 py-1 rounded-badge text-xs font-bold uppercase tracking-wide;
   }
 
   .badge-new {
-    @apply inline-flex items-center gap-1 bg-action/20 text-action-700
+    @apply inline-flex items-center gap-1 bg-secondary/20 text-text-primary
            px-3 py-1 rounded-badge text-xs font-bold uppercase tracking-wide;
   }
 
@@ -87,18 +129,18 @@ body {
   }
 
   .badge-discount {
-    @apply inline-flex items-center gap-1 bg-primary-100 text-primary-700
+    @apply inline-flex items-center gap-1 bg-secondary/20 text-text-primary
            px-3 py-1 rounded-badge text-xs font-bold uppercase tracking-wide;
   }
 
   .input-modern {
     @apply w-full px-4 py-3 border-2 border-gray-200 rounded-xl
-           focus:border-primary-500 focus:ring-2 focus:ring-primary-100
+           focus:border-secondary focus:ring-2 focus:ring-secondary/20
            transition-all duration-200 outline-none placeholder:text-gray-400;
   }
 
   .input-error {
-    @apply border-error focus:border-error focus:ring-error/20;
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/20;
   }
 
   .container-main {
@@ -112,7 +154,7 @@ body {
 
   .admin-card {
     @apply bg-white rounded-card shadow-card p-6 hover:shadow-hover
-           transition-all duration-300 border-2 border-transparent hover:border-primary-200;
+           transition-all duration-300 border-2 border-transparent hover:border-secondary/50;
   }
 }
 
@@ -133,7 +175,7 @@ body {
   }
 
   .text-gradient-onset {
-    @apply bg-gradient-to-r from-primary-500 via-action-500 to-accent-electric bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-secondary via-terracota to-secondary bg-clip-text text-transparent;
   }
 
   .overlay-dark {
@@ -178,11 +220,63 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Micro-interacciones: hover suave + feedback táctil */
+  .tap-feedback {
+    @apply transition-transform duration-150 ease-out;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .tap-feedback:active {
+    transform: scale(0.97);
+  }
+
+  /* Hover solo en dispositivos con puntero fino (evita sticky hover en táctiles) */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hover-lift:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .hover-lift:active {
+    transform: scale(0.99);
+  }
 }
 
 /* ========================================
    ANIMACIONES
    ======================================== */
+
+/* Entrada suave (opacidad + ligero desplazamiento) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Hero: fade-in suave con delays (animation-delay en Tailwind: delay-200, delay-400) */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+/* Botón hero: leve rebote en hover */
+.hero-cta {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hero-cta:hover {
+  transform: scale(1.05) translateY(-2px);
+}
+.hero-cta:active {
+  transform: scale(0.98);
+}
+
 @keyframes shimmer {
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
@@ -227,6 +321,51 @@ body {
 
 .animate-float-soft {
   animation: float-soft 2.5s ease-in-out infinite;
+}
+
+/* Hero: respiración suave de la imagen (6s por ciclo, relajante) */
+@keyframes float {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.02); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+.animate-hero-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* CTA y Hero: shimmer sutil (brillo 20% cada 4s) + sombra que respira */
+@keyframes cta-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes cta-shadow-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(232, 193, 192, 0.35); }
+  50% { box-shadow: 0 8px 24px rgba(232, 193, 192, 0.5); }
+}
+
+.cta-brillar {
+  position: relative;
+  overflow: hidden;
+  animation: cta-shadow-pulse 2.5s ease-in-out infinite;
+}
+
+.cta-brillar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 45%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.2) 55%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: cta-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* ========================================
@@ -278,7 +417,7 @@ body {
    ACCESIBILIDAD
    ======================================== */
 .focus-visible {
-  @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  @apply outline-none ring-2 ring-secondary ring-offset-2;
 }
 
 .sr-only {

@@ -1,58 +1,95 @@
-"use client";
-
 import Link from "next/link";
-import { Zap, Mail, MessageCircle } from "lucide-react";
+import { FiFacebook, FiInstagram, FiTwitter, FiMail, FiMessageCircle } from "react-icons/fi";
 
 const EMAIL = "mailto:aaroneli874@gmail.com";
-const WHATSAPP_URL = "https://wa.me/529516111552";
+const WHATSAPP_NUMBER = "529516111552";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+/* Enlaces temporales hasta tener URLs reales */
+const INSTAGRAM_URL = "#";
+const FACEBOOK_URL = "#";
+const TWITTER_URL = "#";
+const FAQ_URL = "#";
+const HOW_TO_BUY_URL = "#";
+const CONTACT_URL = "#";
+
+const linkClass =
+  "text-text-secondary transition-colors duration-200 hover:text-secondary hover:underline underline-offset-2 py-1 inline-block";
+
+const socialIconClass =
+  "text-text-secondary hover:text-secondary hover:scale-110 transition-all duration-200 ease-out inline-flex";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-gradient-to-r from-secondary-dark via-[#1e3a47] to-secondary-dark py-12 text-white">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="mb-10 grid gap-10 md:mb-8 md:grid-cols-3 md:gap-8">
-          <div>
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-gradient-to-br from-primary to-coral p-2.5 transition-transform duration-300 hover-capable:hover:scale-105">
-                <Zap className="h-6 w-6 text-white" />
-              </div>
-              <span className="font-title text-xl tracking-wider sm:text-2xl">ONSET</span>
-            </div>
-            <p className="text-base text-white/70 sm:text-sm">
-              Tu estilo, tu inicio. Energía y impacto.
+    <footer className="mt-auto border-t border-border bg-[#F8F4F1]">
+      <div className="container mx-auto px-4 py-10 sm:py-12">
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-4">
+          {/* Columna 1: Logo/marca + descripción breve */}
+          <div className="sm:max-w-xs">
+            <h3 className="mb-3 font-serif text-xl font-semibold text-text-primary">
+              TuMarca
+            </h3>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              Belleza y bienestar para tu día a día. Productos pensados para ti.
             </p>
           </div>
+
+          {/* Columna 2: Enlaces de tienda */}
           <div>
-            <h3 className="mb-4 font-display text-lg font-bold sm:text-base">Enlaces</h3>
-            <ul className="space-y-3 text-base text-white/70 sm:space-y-2 sm:text-sm">
+            <h4 className="mb-4 font-sans font-semibold text-text-primary">
+              Tienda
+            </h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="flex min-h-[48px] items-center transition-colors duration-200 hover-capable:hover:text-primary">
-                  Inicio
+                <Link href="/shop" className={linkClass}>
+                  Todos los productos
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className="flex min-h-[48px] items-center transition-colors duration-200 hover-capable:hover:text-primary">
-                  Productos
+                <Link href="#" className={linkClass} aria-label="Ropa (próximamente)">
+                  Ropa
                 </Link>
               </li>
               <li>
-                <Link href="/cart" className="flex min-h-[48px] items-center transition-colors duration-200 hover-capable:hover:text-primary">
-                  Carrito
+                <Link href="#" className={linkClass} aria-label="Cuidado personal (próximamente)">
+                  Cuidado personal
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className={linkClass} aria-label="Accesorios (próximamente)">
+                  Accesorios
                 </Link>
               </li>
             </ul>
           </div>
+
+          {/* Columna 3: Ayuda (FAQ, Cómo comprar, Contacto, email mailto, WhatsApp wa.me) */}
           <div>
-            <h3 className="mb-4 font-display text-lg font-bold sm:text-base">Contacto</h3>
-            <ul className="space-y-4 text-base text-white/70 sm:space-y-3 sm:text-sm">
+            <h4 className="mb-4 font-sans font-semibold text-text-primary">
+              Ayuda
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link href={FAQ_URL} className={linkClass} aria-label="Preguntas frecuentes (próximamente)">
+                  Preguntas frecuentes
+                </Link>
+              </li>
+              <li>
+                <Link href={HOW_TO_BUY_URL} className={linkClass} aria-label="Cómo comprar (próximamente)">
+                  Cómo comprar
+                </Link>
+              </li>
+              <li>
+                <Link href={CONTACT_URL} className={linkClass} aria-label="Contacto (próximamente)">
+                  Contacto
+                </Link>
+              </li>
               <li>
                 <a
                   href={EMAIL}
-                  className="group inline-flex min-h-[44px] items-center gap-3 py-2 text-white/90 transition-colors duration-200 hover-capable:hover:text-primary"
+                  className={`inline-flex items-center gap-2 py-1 ${linkClass}`}
+                  aria-label="Enviar email"
                 >
-                  <span className="flex min-h-[44px] min-w-[44px] items-center justify-center">
-                    <Mail className="h-5 w-5 sm:h-4 sm:w-4 transition-transform duration-200 hover-capable:group-hover:scale-110" />
-                  </span>
+                  <FiMail size={18} className="shrink-0" />
                   <span className="break-all">aaroneli874@gmail.com</span>
                 </a>
               </li>
@@ -61,21 +98,56 @@ export default function Footer() {
                   href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex min-h-[44px] items-center gap-3 py-2 text-white/90 transition-colors duration-200 hover-capable:hover:text-whatsapp"
+                  className={`inline-flex items-center gap-2 py-1 ${linkClass}`}
+                  aria-label="Contactar por WhatsApp"
                 >
-                  <span className="flex min-h-[44px] min-w-[44px] items-center justify-center">
-                    <MessageCircle className="h-5 w-5 transition-transform duration-200 sm:h-4 sm:w-4 hover-capable:group-hover:scale-110" />
-                  </span>
+                  <FiMessageCircle size={18} className="shrink-0" />
                   <span>WhatsApp</span>
                 </a>
               </li>
             </ul>
           </div>
+
+          {/* Columna 4: Redes sociales con iconos (react-icons/fi) */}
+          <div>
+            <h4 className="mb-4 font-sans font-semibold text-text-primary">
+              Síguenos
+            </h4>
+            <div className="flex space-x-4">
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className={socialIconClass}
+              >
+                <FiFacebook size={20} />
+              </a>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className={socialIconClass}
+              >
+                <FiInstagram size={20} />
+              </a>
+              <a
+                href={TWITTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className={socialIconClass}
+              >
+                <FiTwitter size={20} />
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="border-t border-white/20 pt-8 text-center">
-          <p className="text-base text-white/70 sm:text-sm">
-            © {new Date().getFullYear()} ONSET. Todos los derechos reservados.
-          </p>
+
+        {/* Copyright */}
+        <div className="mt-10 pt-6 border-t border-gray-300/60 text-center text-sm text-text-secondary">
+          © {new Date().getFullYear()} TuMarca. Todos los derechos reservados.
         </div>
       </div>
     </footer>

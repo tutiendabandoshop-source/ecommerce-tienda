@@ -45,20 +45,20 @@ export default function FeaturedProducts() {
 
   if (loading) {
     return (
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-card py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="mb-12 animate-pulse text-center">
-            <div className="mx-auto mb-4 h-8 w-32 rounded-full bg-gray-200" />
-            <div className="mx-auto mb-4 h-12 w-64 rounded bg-gray-200" />
-            <div className="mx-auto h-4 w-96 rounded bg-gray-100" />
+            <div className="mx-auto mb-4 h-8 w-32 rounded-full bg-border" />
+            <div className="mx-auto mb-4 h-12 w-64 rounded bg-border" />
+            <div className="mx-auto h-4 w-96 rounded bg-primary/50" />
           </div>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="animate-pulse rounded-[20px] bg-gray-100">
-                <div className="aspect-[4/5] rounded-t-[20px] bg-gray-200" />
-                <div className="space-y-3 p-5">
-                  <div className="h-4 w-3/4 rounded bg-gray-200" />
-                  <div className="h-6 w-20 rounded bg-gray-200" />
+              <div key={i} className="animate-pulse rounded-xl bg-primary/30">
+                <div className="aspect-square rounded-t-xl bg-border" />
+                <div className="space-y-3 p-4">
+                  <div className="h-4 w-3/4 rounded bg-border" />
+                  <div className="h-6 w-20 rounded bg-border" />
                 </div>
               </div>
             ))}
@@ -70,10 +70,10 @@ export default function FeaturedProducts() {
 
   if (error) {
     return (
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-card py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
           <div className="py-16 text-center">
-            <p className="text-gray-500">No se pudieron cargar los productos. Intenta de nuevo.</p>
+            <p className="text-text-secondary">No se pudieron cargar los productos. Intenta de nuevo.</p>
           </div>
         </div>
       </section>
@@ -81,23 +81,17 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-card py-16 sm:py-20 border-t border-border">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="mb-10 animate-fadeIn text-center sm:mb-12">
-          <div className="mb-4 inline-block rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
-            <span className="text-sm font-bold uppercase tracking-wider text-primary">Lo nuevo</span>
-          </div>
-          <h2
-            className="mb-4 font-title text-3xl font-bold tracking-wider text-secondary-dark sm:text-4xl md:text-5xl"
-            style={{ letterSpacing: "0.02em" }}
-          >
-            LO MEJOR DE
-            <span className="block bg-gradient-to-r from-primary via-action to-accent-electric bg-clip-text text-transparent">
-              ONSET
-            </span>
+          <p className="font-serif text-2xl sm:text-3xl md:text-4xl text-text-primary tracking-[0.2em] uppercase mb-2">
+            Lo nuevo
+          </p>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-wide mb-4">
+            Lo mejor de TuMarca
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-gray-600 sm:text-lg">
-            Productos con actitud. Elige el tuyo.
+          <p className="mx-auto max-w-2xl text-base text-text-secondary sm:text-lg">
+            Productos elegidos para ti. Elige el tuyo.
           </p>
         </div>
 
@@ -144,17 +138,17 @@ export default function FeaturedProducts() {
           </>
         ) : (
           <div className="py-16 text-center">
-            <Package className="mx-auto mb-4 h-24 w-24 text-gray-300" />
-            <p className="text-lg text-gray-500">No hay productos disponibles aún</p>
+            <Package className="mx-auto mb-4 h-24 w-24 text-border" />
+            <p className="text-lg text-text-secondary">No hay productos disponibles aún</p>
           </div>
         )}
 
         <div className="mt-10 text-center sm:mt-12">
           <Link
             href="/shop"
-            className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-xl bg-gradient-to-r from-primary to-coral px-8 py-4 text-base font-bold text-white shadow-glow transition-all duration-300 active:scale-95 hover-capable:hover:scale-105 hover-capable:hover:shadow-hover"
+            className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-full bg-secondary text-secondary-foreground px-8 py-4 text-base font-semibold transition-all duration-200 ease-out hover:bg-secondary/90 hover:scale-[1.02] active:scale-[0.98] tap-scale"
           >
-            <span>Ver Todos los Productos</span>
+            <span>Ver todos los productos</span>
             <ArrowRight className="ml-2 h-5 w-5" />
           </Link>
         </div>

@@ -1,183 +1,277 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 import { prisma } from "@/app/lib/prisma";
 import Header from "@/components/Header";
-import FeaturedProducts from "@/components/FeaturedProducts";
+import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Package, Shield, Truck, Check } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Inicio",
-  description: "ONSET – Tu estilo, tu inicio. Descubre productos con energía. Envío rápido y seguro.",
+  description: "Belleza que te acompaña. Descubre productos que realzan tu esencia diaria.",
 };
 
 export const revalidate = 60;
 
-export default async function Home() {
-  const products = await prisma.product.findMany({
+const productSelect = {
+  id: true,
+  name: true,
+  slug: true,
+  price: true,
+  images: true,
+  stock: true,
+  createdAt: true,
+  isPreOrder: true,
+  preOrderDays: true,
+} as const;
+
+async function getHomeData() {
+  const newProducts = await prisma.product.findMany({
     where: { isActive: true },
-    take: 8,
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      price: true,
-      images: true,
-      stock: true,
-    },
     orderBy: { createdAt: "desc" },
+    take: 4,
+    select: productSelect,
   });
 
-  const productsWithImageUrl = products.map((product) => ({
-    ...product,
-    imageUrl: product.images && product.images.length > 0 ? product.images[0] : null,
-    stock: product.stock ?? 0, // Fix: convertir null a 0
+  // Lo mejor: productos distintos a los 4 más recientes (skip 4).
+  let topProducts = await prisma.product.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: "desc" },
+    skip: 4,
+    take: 4,
+    select: productSelect,
+  });
+
+  // Asegurar al menos 4 productos: completar con newProducts o con cualquier activo.
+  if (topProducts.length < 4) {
+    const topIds = new Set(topProducts.map((p) => p.id));
+    const fromNew = newProducts.filter((p) => !topIds.has(p.id));
+    const needed = 4 - topProducts.length;
+    const fillFromNew = fromNew.slice(0, needed);
+    topProducts = [...topProducts, ...fillFromNew];
+    for (const p of fillFromNew) topIds.add(p.id);
+
+    if (topProducts.length < 4) {
+      const extra = await prisma.product.findMany({
+        where: {
+          isActive: true,
+          id: { notIn: [...topIds] },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 4 - topProducts.length,
+        select: productSelect,
+      });
+      topProducts = [...topProducts, ...extra];
+    }
+  }
+
+  return { newProducts, topProducts };
+}
+
+export default async function HomePage() {
+  const { newProducts, topProducts } = await getHomeData();
+
+  const newWithImage = newProducts.map((p) => ({
+    ...p,
+    imageUrl: p.images?.length ? p.images[0] : null,
+    stock: p.stock ?? 0,
+    createdAt: p.createdAt.toISOString(),
   }));
 
+  const topWithImage = topProducts.map((p) => ({
+    ...p,
+    imageUrl: p.images?.length ? p.images[0] : null,
+    stock: p.stock ?? 0,
+    createdAt: p.createdAt.toISOString(),
+  }));
+
+  const heroImageUrl = "/hero-main.jpg";
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FFF9F7] via-white to-[#F0FDFA]">
+    <div className="min-h-screen bg-primary">
       <Header />
 
-      {/* Hero – Moderno, bold, mobile-first | 100dvh para móvil, sin franja blanca en desktop */}
-      <section
-        className="relative flex min-h-screen items-center justify-center overflow-hidden"
-        style={{
-          minHeight: "100dvh",
-          backgroundImage: productsWithImageUrl[0]?.imageUrl
-            ? `linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.45)), url(${productsWithImageUrl[0].imageUrl})`
-            : "linear-gradient(135deg, #264653 0%, #1e3a47 50%, #2A9D8F 100%)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/60" aria-hidden />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 py-14 text-center sm:px-6 sm:py-16 lg:px-8">
-          <div className="animate-fadeIn">
-            <h1
-              className="mb-5 font-bold leading-tight text-white drop-shadow-lg sm:mb-6"
-              style={{
-                fontSize: "clamp(2.5rem, 12vw, 4.5rem)",
-                fontWeight: 700,
-              }}
-            >
-              TU ESTILO
-              <span className="block bg-gradient-to-r from-[#FF5722] via-[#E76F51] to-[#F4A261] bg-clip-text text-transparent">
-                TU INICIO
-              </span>
-            </h1>
-            <p className="mx-auto mb-10 max-w-xl text-base text-white/90 sm:mb-12 sm:text-lg md:text-xl">
-              ONSET es donde empieza todo. Productos con actitud, envío rápido y precios que vibran.
-            </p>
-            <div className="flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-6">
-              <Link
-                href="/shop"
-                className="group inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-xl bg-[#FF5722] px-8 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 active:scale-95 hover-capable:hover:bg-[#E64A19] hover-capable:hover:scale-105 hover-capable:hover:shadow-xl sm:px-10 sm:py-5 sm:text-lg"
-              >
-                <span>Explorar Productos</span>
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 hover-capable:group-hover:translate-x-1" />
-              </Link>
-            </div>
-            <p className="mt-8 text-base font-medium text-white/80 sm:mt-10">
-              Envío gratis en compras +$500
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Features – Plantel 42, Compra Segura, Envío desde $200 */}
-      <section className="py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-5 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {/* Card 1 - Plantel 42 */}
-            <div className="group relative bg-white rounded-2xl p-6 lg:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-2 border border-gray-100/50">
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative z-10">
-                <div className="bg-gradient-to-br from-primary to-primary/80 w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <span className="text-3xl filter drop-shadow-lg">
-                    🎓
-                  </span>
-                </div>
-                <h3 className="text-lg lg:text-xl font-bold text-secondary-dark mb-3 group-hover:text-primary transition-colors duration-300">
-                  Entrega en Plantel 42
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Entrega directa en Plantel 42 Huitzo. Sin costo de envío.
-                </p>
+      {/* Hero: móvil = imagen 60vh + texto superpuesto; desktop = grid 2 cols */}
+      <section className="bg-[#FDFAF7] pt-0 pb-10 md:pt-10 md:pb-16 lg:pt-12 lg:pb-20">
+        <div className="container mx-auto px-4 md:px-8 lg:px-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-10 lg:gap-16 items-center min-h-0">
+            {/* Imagen: móvil 60vh rounded-b only; desktop ratio y bordes orgánicos */}
+            <div className="order-1 md:order-2 relative flex justify-center md:justify-end">
+              <div
+                className="hidden md:block absolute -z-10 w-[120%] h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E8C1C0] opacity-30 blur-3xl"
+                aria-hidden
+              />
+              <div className="group relative w-full h-[60vh] min-h-[280px] rounded-b-3xl md:h-auto md:min-h-0 md:w-full md:max-w-lg md:aspect-[3/4] md:rounded-[2rem] md:rounded-tr-[4rem] md:rounded-bl-[4rem] overflow-hidden shadow-xl shadow-amber-900/10 md:animate-hero-float">
+                <Image
+                  src={heroImageUrl}
+                  alt="Belleza natural, colección exclusiva"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
               </div>
             </div>
-
-            {/* Card 2 - Compra Segura */}
-            <div className="group relative bg-white rounded-2xl p-6 lg:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-2 border border-gray-100/50">
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-action/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative z-10">
-                <div className="bg-gradient-to-br from-action to-action/80 w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <svg className="h-8 w-8 text-white filter drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg lg:text-xl font-bold text-secondary-dark mb-3 group-hover:text-action transition-colors duration-300">
-                  Compra Segura
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Datos protegidos. Compra con confianza vía WhatsApp.
+            {/* Texto + CTA: móvil superpuesto con degradado, desktop normal */}
+            <div className="order-2 md:order-1 flex flex-col justify-center text-center md:text-left -mt-4 md:mt-0 relative z-10">
+              <div className="bg-gradient-to-t from-[#FDFAF7] via-[#FDFAF7]/90 to-transparent pt-8 pb-2 md:bg-transparent md:pt-0 md:pb-0">
+                <h1 className="font-serif font-semibold text-[#2D2D2D] text-4xl md:text-6xl leading-tight md:leading-[1.15] mb-3 md:mb-5 max-w-xl mx-auto md:mx-0">
+                  Belleza natural,<br className="hidden md:block" />
+                  pensada para ti.
+                </h1>
+                <p className="font-sans text-[#5A5A5A] text-base md:text-lg leading-loose max-w-xl mx-auto md:mx-0 mb-5 md:mb-8">
+                  Descubre una colección exclusiva para tu cuidado personal. Envío rápido y atención personalizada por WhatsApp.
                 </p>
-              </div>
-            </div>
-
-            {/* Card 3 - Envío Gratis */}
-            <div className="group relative bg-white rounded-2xl p-6 lg:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_60px_rgb(0,0,0,0.18)] transition-all duration-500 hover:-translate-y-2 border border-gray-100/50">
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-coral/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative z-10">
-                <div className="bg-gradient-to-br from-coral to-coral/80 w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  <span className="text-3xl filter drop-shadow-lg">
-                    🚚
-                  </span>
+                <div className="flex flex-col items-center md:items-start">
+                  <Link
+                    href="/shop"
+                    className="cta-brillar relative inline-flex items-center justify-center min-h-[48px] px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest text-white bg-[#E8C1C0] hover:bg-[#dfb3b2] shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 tap-scale overflow-hidden"
+                  >
+                    Descubrir Colección
+                  </Link>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-8 md:mt-10 text-[#9A9A9A] text-sm font-sans">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Check className="w-4 h-4 text-[#9A9A9A]" aria-hidden />
+                      Envío Gratis
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Check className="w-4 h-4 text-[#9A9A9A]" aria-hidden />
+                      Compra Segura
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-lg lg:text-xl font-bold text-secondary-dark mb-3 group-hover:text-coral transition-colors duration-300">
-                  Envío Gratis desde $200
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Envío sin costo alrededor de Etla, Oaxaca. Entrega en 2-3 días.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Productos destacados – fetch API, grid/swipe, badge NUEVO, lazy images */}
-      <FeaturedProducts />
+      {/* Beneficios: móvil = carrusel horizontal snap; desktop = grid */}
+      <section className="py-8 md:py-16 lg:py-20 bg-card border-y border-border">
+        <div className="container mx-auto px-4 md:px-5 lg:px-8">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-8 lg:gap-12 md:overflow-visible md:pb-0 scrollbar-hide">
+            <div className="group flex-shrink-0 w-[280px] sm:w-[300px] md:flex-shrink md:w-auto snap-center flex flex-col items-center rounded-2xl border border-white/70 bg-white/30 px-4 py-5 md:px-6 md:py-8 text-center shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+              <div className="mb-3 md:mb-4 flex h-11 w-11 md:h-14 md:w-14 items-center justify-center rounded-full bg-[#E8C1C0]/20 transition-transform duration-300 group-hover:rotate-6">
+                <Package className="w-5 h-5 md:w-7 md:h-7 text-text-primary" />
+              </div>
+              <h3 className="font-serif text-base md:text-lg font-semibold text-text-primary mb-1 md:mb-2">
+                Envío cuidado
+              </h3>
+              <p className="text-text-secondary text-xs md:text-sm leading-relaxed max-w-xs">
+                Tu pedido empaquetado con mimo. Entrega directa o envío a domicilio.
+              </p>
+            </div>
+            <div className="group flex-shrink-0 w-[280px] sm:w-[300px] md:flex-shrink md:w-auto snap-center flex flex-col items-center rounded-2xl border border-white/70 bg-white/30 px-4 py-5 md:px-6 md:py-8 text-center shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+              <div className="mb-3 md:mb-4 flex h-11 w-11 md:h-14 md:w-14 items-center justify-center rounded-full bg-[#E8C1C0]/20 transition-transform duration-300 group-hover:rotate-6">
+                <Shield className="w-5 h-5 md:w-7 md:h-7 text-text-primary" />
+              </div>
+              <h3 className="font-serif text-base md:text-lg font-semibold text-text-primary mb-1 md:mb-2">
+                Compra segura
+              </h3>
+              <p className="text-text-secondary text-xs md:text-sm leading-relaxed max-w-xs">
+                Datos protegidos. Compra con confianza vía WhatsApp.
+              </p>
+            </div>
+            <div className="group flex-shrink-0 w-[280px] sm:w-[300px] md:flex-shrink md:w-auto snap-center flex flex-col items-center rounded-2xl border border-white/70 bg-white/30 px-4 py-5 md:px-6 md:py-8 text-center shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+              <div className="mb-3 md:mb-4 flex h-11 w-11 md:h-14 md:w-14 items-center justify-center rounded-full bg-[#E8C1C0]/20 transition-transform duration-300 group-hover:rotate-6">
+                <Truck className="w-5 h-5 md:w-7 md:h-7 text-text-primary" />
+              </div>
+              <h3 className="font-serif text-base md:text-lg font-semibold text-text-primary mb-1 md:mb-2">
+                Entrega a tiempo
+              </h3>
+              <p className="text-text-secondary text-xs md:text-sm leading-relaxed max-w-xs">
+                Envío sin costo desde $200. Entrega en 2-3 días.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* CTA – touch target, fonts mobile */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-secondary-dark via-[#1e3a47] to-action py-16 sm:py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,87,34,0.15)_0%,transparent_60%)]" />
-        <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-6 lg:px-8">
-          <h2
-            className="mb-6 font-title text-3xl font-bold tracking-wider text-white sm:text-4xl md:text-5xl"
-            style={{ letterSpacing: "0.02em" }}
-          >
-            ¿LISTO PARA EMPEZAR?
+      {/* Lo Nuevo – cuadrícula idéntica a catálogo */}
+      <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20 border-t border-border">
+        <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-center text-text-primary mb-8">
+          Lo Nuevo
+        </h2>
+        {newWithImage.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+            {newWithImage.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                slug={product.slug}
+                price={product.price}
+                imageUrl={product.imageUrl}
+                stock={product.stock}
+                isPreOrder={product.isPreOrder ?? false}
+                preOrderDays={product.preOrderDays ?? null}
+                isNew={index < 2}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-text-secondary text-lg py-8">
+            Próximamente nuevos productos.
+          </p>
+        )}
+      </section>
+
+      {/* Lo Mejor de TuMarca – misma cuadrícula y ProductCard que Lo Nuevo */}
+      <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20 bg-gray-50/50 border-t border-border">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-text-primary">
+            Lo Mejor de TuMarca
           </h2>
-          <p className="mb-10 text-base text-white/90 sm:mb-12 sm:text-lg">
-            Explora la colección ONSET y encuentra tu estilo.
+          <Link
+            href="/shop"
+            className="text-secondary font-medium transition-colors duration-200 hover:underline underline-offset-2 shrink-0 order-first sm:order-none"
+          >
+            Ver todos los productos →
+          </Link>
+        </div>
+        {topWithImage.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+            {topWithImage.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                slug={product.slug}
+                price={product.price}
+                imageUrl={product.imageUrl}
+                stock={product.stock}
+                isPreOrder={product.isPreOrder ?? false}
+                preOrderDays={product.preOrderDays ?? null}
+                isNew={false}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-text-secondary text-lg py-8">
+            Próximamente más productos destacados.
+          </p>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 sm:py-20 bg-primary border-t border-border">
+        <div className="container mx-auto px-5 text-center">
+          <h2 className="font-serif text-3xl md:text-6xl text-text-primary mb-4 tracking-wide">
+            ¿Lista para brillar?
+          </h2>
+          <p className="text-text-secondary text-lg mb-8 max-w-md mx-auto">
+            Explora la colección y encuentra lo que te hace sentir única.
           </p>
           <Link
             href="/shop"
-            className="inline-flex min-h-[48px] min-w-[44px] items-center justify-center rounded-xl bg-gradient-to-r from-primary to-coral px-10 py-5 text-base font-bold text-white shadow-glow transition-all duration-300 active:scale-95 hover-capable:hover:scale-105 hover-capable:hover:shadow-hover sm:text-lg"
+            className="cta-brillar relative inline-flex items-center justify-center min-h-[48px] bg-[#E8C1C0] text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-200 ease-out hover:bg-[#dfb3b2] hover:scale-[1.02] active:scale-[0.98] tap-scale overflow-hidden"
           >
-            <span>Ir a la Tienda</span>
-            <ArrowRight className="ml-3 h-6 w-6" />
+            Ver colección
           </Link>
         </div>
       </section>
-
     </div>
   );
 }
