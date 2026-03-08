@@ -6,6 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import Image from "next/image";
 import { Package, Shield, Truck, Check } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/contact";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -149,6 +150,14 @@ export default async function HomePage() {
                       <Check className="w-4 h-4 text-[#9A9A9A]" aria-hidden />
                       Compra Segura
                     </span>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[#CB997E] font-medium hover:underline"
+                    >
+                      WhatsApp: 52 951 589 0033
+                    </a>
                   </div>
                 </div>
               </div>

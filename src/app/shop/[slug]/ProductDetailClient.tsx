@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ChevronDown, Clock, Minus, Plus, ShoppingCart, X, Star, Truck, Shield } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { WHATSAPP_NUMBER } from '@/lib/contact';
 import ProductGallery from '@/components/ProductGallery';
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -136,7 +137,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       `Hola Áurea, me interesa el producto: *${product.name}*${preOrderText}${variantDetails}\n\n` +
       `Precio: $${currentPrice.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN\n` +
       `Cantidad: ${quantity}\n\n¿Está disponible?`;
-    window.open(`https://wa.me/5219516111552?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useState } from "react";
+import { WHATSAPP_NUMBER } from "@/lib/contact";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -83,7 +84,7 @@ export default function ProductCard({
       `Hola Áurea, me interesa el producto: *${name}*${preOrderText}\n\n` +
       `Precio: $${price.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN\n` +
       "¿Está disponible?";
-    window.open(`https://wa.me/5219516111552?text=${encodeURIComponent(message)}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   const stockLabel =

@@ -6,8 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { X, ShoppingCart, Plus, Minus, Trash2, Trash } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-
-const WHATSAPP_PHONE = "5219516111552";
+import { WHATSAPP_NUMBER } from "@/lib/contact";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -46,7 +45,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     messageText += `💰 *Total:* $${totalPrice.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN\n\n`;
     messageText += "¿Están disponibles?";
 
-    window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(messageText)}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`, "_blank");
   };
 
   return (

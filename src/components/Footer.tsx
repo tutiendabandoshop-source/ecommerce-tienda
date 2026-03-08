@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { FiFacebook, FiInstagram, FiTwitter, FiMail, FiMessageCircle } from "react-icons/fi";
+import { FiFacebook, FiInstagram, FiTwitter, FiMessageCircle } from "react-icons/fi";
+import { WHATSAPP_NUMBER, WHATSAPP_URL } from "@/lib/contact";
 
-const EMAIL = "mailto:aaroneli874@gmail.com";
-const WHATSAPP_NUMBER = "529516111552";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 /* Enlaces temporales hasta tener URLs reales */
 const INSTAGRAM_URL = "#";
 const FACEBOOK_URL = "#";
@@ -62,7 +60,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Columna 3: Ayuda (FAQ, Cómo comprar, Contacto, email mailto, WhatsApp wa.me) */}
+          {/* Columna 3: Ayuda (FAQ, Cómo comprar, Contacto, WhatsApp) */}
           <div>
             <h4 className="mb-4 font-sans font-semibold text-text-primary">
               Ayuda
@@ -82,16 +80,6 @@ export default function Footer() {
                 <Link href={CONTACT_URL} className={linkClass} aria-label="Contacto (próximamente)">
                   Contacto
                 </Link>
-              </li>
-              <li>
-                <a
-                  href={EMAIL}
-                  className={`inline-flex items-center gap-2 py-1 ${linkClass}`}
-                  aria-label="Enviar email"
-                >
-                  <FiMail size={18} className="shrink-0" />
-                  <span className="break-all">aaroneli874@gmail.com</span>
-                </a>
               </li>
               <li>
                 <a

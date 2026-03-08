@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useCart } from "@/contexts/CartContext";
+import { WHATSAPP_NUMBER } from "@/lib/contact";
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, Trash } from "lucide-react";
@@ -22,7 +23,6 @@ export default function CartPage() {
   const [showConfirmClear, setShowConfirmClear] = useState(false);
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = "5219516111552";
     let messageText = "¡Hola Áurea! Me interesan estos productos de mi carrito:\n\n";
 
     items.forEach((item) => {
@@ -38,7 +38,7 @@ export default function CartPage() {
     messageText += "¿Están disponibles?";
 
     const encodedMessage = encodeURIComponent(messageText);
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
   };
 
   const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
